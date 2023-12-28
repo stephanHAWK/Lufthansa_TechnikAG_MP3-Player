@@ -6,6 +6,8 @@
 #include <QTimer>
 #include <QTableWidgetItem>
 #include <QString>
+#include <QTime>
+#include <QRandomGenerator>
 
 #include "playlist.h"
 
@@ -26,40 +28,33 @@ public:
 
 private slots:
     void on_pushButton_play_clicked();
-
+    void playSong();
     void on_pushButton_shuffle_clicked();
-
     void on_pushButton_previousSong_clicked();
-
+    void onDoubleClickTimerTimeout();
     void on_pushButton_nextSong_clicked();
-
+    void nextSong();
     void on_pushButton_repeat_clicked();
-
     void on_pushButton_volume_clicked();
-
     void on_pushButton_fullscreen_clicked();
-
     void showNormalized();
-
     void setVolumeIcon(int position);
-
     void on_horizontalSlider_volumeLevel_valueChanged(int value);
-
     void handleHorizontalHeaderClicked(int logicalIndex);
-
     void loadData();
-
     void tableWidget_setItemsFlags();
-
     void handleItemEntered(QTableWidgetItem* item);
-
     void on_tableWidget_itemClicked(QTableWidgetItem *item);
+    void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
+    void playNewSong();
+    void on_horizontalSlider_songProgress_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
 
     bool songPaused = false;
     bool soundMuted = false;
+    bool shuffleOn = false;
     bool fullscreen = false;
     bool titleSorted = false;
     bool authorSorted = false;
@@ -71,8 +66,13 @@ private:
     int volumePosition;
 
     Playlist playlist;
-    // Member variable to hold the timer
-    QTimer *timer = nullptr;
+
+    QTimer *timerLongName = nullptr;
+    QTimer *timerPassedPlaytime = nullptr;
+    QTimer *timerDoubleClick_previousSong = nullptr;
+
     QTableWidgetItem *item_selectedSong;
+
+    QVector<QString> shuffleSongList;
 };
 #endif // MAINWINDOW_H

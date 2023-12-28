@@ -16,6 +16,7 @@ class Playlist
 {
 public:
     Playlist();
+    ~Playlist();
 
     // Abrufen der Playlist
     QVector<Song> getPlaylist() const;

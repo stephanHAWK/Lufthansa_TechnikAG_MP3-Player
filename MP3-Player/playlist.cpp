@@ -3,13 +3,11 @@
 #include <QFile>
 #include <QTextStream>
 
-Playlist::Playlist()
+Playlist::Playlist() {}
+
+Playlist::~Playlist()
 {
-    for (int i = 1; i < 11; i++)
-    {
-        QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\MP3-Player\\mp3Tags\\song" + QString::number(i) + ".txt";
-        this->loadSongInfo(filePath);
-    }
+    this->songList.clear();
 }
 
 void Playlist::loadSongInfo(const QString& filePath)

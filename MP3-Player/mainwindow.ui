@@ -209,42 +209,6 @@ QPushButton:hover
      <string/>
     </property>
    </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>430</y>
-      <width>351</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QProgressBar {
-    border-radius: 5px;
-	color: transparent;
-	background-color: gray;
-}
-
-QProgressBar::chunk {
-    background-color: white; 
-    width: 20px; 
-}
-
-QProgressBar::chunk:hover {
-    background-color: #f9bb00;
-}
-</string>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_timePassed">
     <property name="geometry">
      <rect>
@@ -503,6 +467,65 @@ QPushButton:hover
       <set>AlignLeading|AlignVCenter</set>
      </property>
     </column>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider_songProgress">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>430</y>
+      <width>361</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QSlider::groove:horizontal 
+{
+    border: 1px solid #5c5c5c;
+    background: #dddddd;
+    height: 10px;
+    border-radius: 5px;
+}
+
+QSlider::handle:horizontal 
+{
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 blue);
+    border: 1px solid #5c5c5c;
+    width: 20px;
+    margin: -2px 0;
+    border-radius: 5px;
+}
+
+/* color on the right side from handle */
+QSlider::add-page:horizontal
+ {
+    background: #dddddd;  
+    border: 1px solid #999999;
+    border-radius: 5px;
+}
+
+ /* color on the left side from handle */
+QSlider::sub-page:horizontal
+ {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 blue);
+    border: 1px solid #5c5c5c;
+    border-radius: 5px;
+}</string>
+    </property>
+    <property name="maximum">
+     <number>100</number>
+    </property>
+    <property name="pageStep">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
