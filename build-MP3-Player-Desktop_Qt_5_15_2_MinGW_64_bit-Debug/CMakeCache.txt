@@ -38,13 +38,13 @@ CMAKE_CXX_COMPILER_AR:FILEPATH=D:/Qt/Tools/mingw810_64/bin/gcc-ar.exe
 CMAKE_CXX_COMPILER_RANLIB:FILEPATH=D:/Qt/Tools/mingw810_64/bin/gcc-ranlib.exe
 
 //Flags used by the CXX compiler during all build types.
-CMAKE_CXX_FLAGS:STRING=-DQT_QML_DEBUG
+CMAKE_CXX_FLAGS:STRING=
 
 //Flags used by the CXX compiler during DEBUG builds.
 CMAKE_CXX_FLAGS_DEBUG:STRING=-g
 
 //No help, variable specified on the command line.
-CMAKE_CXX_FLAGS_INIT:STRING=-DQT_QML_DEBUG
+CMAKE_CXX_FLAGS_INIT:STRING=
 
 //Flags used by the CXX compiler during MINSIZEREL builds.
 CMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
@@ -301,7 +301,7 @@ MP3-Player_BINARY_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/buil
 MP3-Player_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-MP3-Player_SOURCE_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/MP3-Player
+MP3-Player_SOURCE_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player
 
 //Skip Qt Creator's package manager auto-setup
 QT_CREATOR_SKIP_PACKAGE_MANAGER_SETUP:BOOL=OFF
@@ -317,12 +317,6 @@ Qt5Core_DIR:PATH=D:/Qt/5.15.2/mingw81_64/lib/cmake/Qt5Core
 
 //The directory containing a CMake configuration file for Qt5Gui.
 Qt5Gui_DIR:PATH=D:/Qt/5.15.2/mingw81_64/lib/cmake/Qt5Gui
-
-//The directory containing a CMake configuration file for Qt5Multimedia.
-Qt5Multimedia_DIR:PATH=D:/Qt/5.15.2/mingw81_64/lib/cmake/Qt5Multimedia
-
-//The directory containing a CMake configuration file for Qt5Network.
-Qt5Network_DIR:PATH=D:/Qt/5.15.2/mingw81_64/lib/cmake/Qt5Network
 
 //The directory containing a CMake configuration file for Qt5Widgets.
 Qt5Widgets_DIR:PATH=D:/Qt/5.15.2/mingw81_64/lib/cmake/Qt5Widgets
@@ -397,7 +391,7 @@ CMAKE_GENERATOR_PLATFORM:INTERNAL=
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/MP3-Player
+CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player
 //ADVANCED property for variable: CMAKE_INSTALL_BINDIR
 CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_DATADIR
