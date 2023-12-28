@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/play.png</file>
+        <file>icons/next.png</file>
+        <file>icons/pause.png</file>
+        <file>icons/previous.png</file>
+        <file>icons/repeat.png</file>
+        <file>icons/shuffle.png</file>
+        <file>icons/nextHover.png</file>
+        <file>icons/pauseHover.png</file>
+        <file>icons/playHover.png</file>
+        <file>icons/previousHover.png</file>
+        <file>icons/repeatHover.png</file>
+        <file>icons/shuffleHover.png</file>
+        <file>icons/volumeHigh.png</file>
+        <file>icons/volumeHighHover.png</file>
+        <file>icons/volumeLow.png</file>
+        <file>icons/volumeLowHover.png</file>
+        <file>icons/volumeMute.png</file>
+        <file>icons/volumeMuteHover.png</file>
+        <file>icons/closeWindow.png</file>
+        <file>icons/fullscreen.png</file>
+        <file>icons/minimizeWindow.png</file>
+        <file>icons/restoreWindow.png</file>
+    </qresource>
+</RCC>

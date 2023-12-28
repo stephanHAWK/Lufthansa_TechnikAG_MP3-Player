@@ -1,0 +1,9 @@
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/MP3-Player.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/install.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/MP3-Player_autogen_timestamp_deps.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Debug/CMakeFiles/MP3-Player_autogen.dir
