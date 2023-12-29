@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // load the data for the tableWidget
     this->loadData();
+
+    // start with the first song when nothing is selected
+    item_selectedSong = ui->tableWidget->item(0, 0);
 }
 
 MainWindow::~MainWindow()
@@ -116,6 +119,11 @@ void MainWindow::on_pushButton_shuffle_clicked()
     if (shuffleOn == false)
     {
         shuffleOn = true;
+
+        if (item_selectedSong != nullptr)
+        {
+            shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
+        }
     }
     else
     {
@@ -136,7 +144,7 @@ void MainWindow::on_pushButton_previousSong_clicked()
                 int nextRow = item_selectedSong->row() - 1;
 
                 // Auf das Element in der nächsten Zeile zugreifen
-                item_selectedSong = ui->tableWidget->item(nextRow, item_selectedSong->column());
+                item_selectedSong = ui->tableWidget->item(nextRow, 0);
 
                 this->playNewSong();
             }
@@ -157,26 +165,48 @@ void MainWindow::on_pushButton_previousSong_clicked()
         // doubleClick
         if (timerDoubleClick_previousSong != nullptr)
         {
-            for (;;)
-            {
-                int randomNumber = QRandomGenerator::global()->bounded(ui->tableWidget->rowCount());
+            shuffleOn_previousSong = true;
 
-                if (randomNumber != item_selectedSong->row())
+            if (shuffleOn_beginSongList == false)
+            {
+                shuffleOn_songIndex = shuffleSongList.size() - 1;
+                ui->label_test->setText(QString::number(shuffleOn_songIndex));
+                shuffleOn_beginSongList = true;
+            }
+            else
+            {
+                shuffleOn_songIndex--;
+                ui->label_test->setText(QString::number(shuffleOn_songIndex));
+                if (shuffleOn_songIndex < 0)
                 {
-                    break;
+                    shuffleOn_songIndex = 0;
                 }
+                ui->label_test->setText(QString::number(shuffleOn_songIndex));
             }
 
-            // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
-            if (item_selectedSong && item_selectedSong->row() > 0)
+            // Überprüfen, ob lastIndex gültig ist
+            if (shuffleOn_songIndex >= 0)
             {
-                // Auf das Element in der nächsten Zeile zugreifen
-                //item_selectedSong = ui->tableWidget->item(randomNumber, item_selectedSong->column());
+                // Das letzte Element in shuffleSongList
+                QString lastSelectedItemText = shuffleSongList[shuffleOn_songIndex];
 
+                // Finden Sie das entsprechende QTableWidgetItem im tableWidget
+                QTableWidgetItem* lastSelectedItem = nullptr;
+                for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
+                {
+                    if (ui->tableWidget->item(row, 0)->text() == lastSelectedItemText)
+                    {
+                        lastSelectedItem = ui->tableWidget->item(row, 0);
+                        break;
+                    }
+                }
+
+                item_selectedSong = lastSelectedItem;
                 this->playNewSong();
             }
             else
             {
+                // shuffleSongList ist leer
                 ui->horizontalSlider_songProgress->setValue(0);
             }
         }
@@ -209,15 +239,70 @@ void MainWindow::on_pushButton_nextSong_clicked()
 
 void MainWindow::nextSong()
 {
-    // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
-    if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
+    if (shuffleOn == false)
     {
-        int nextRow = item_selectedSong->row() + 1;
+        // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
+        if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
+        {
+            int nextRow = item_selectedSong->row() + 1;
 
-        // Auf das Element in der nächsten Zeile zugreifen
-        item_selectedSong = ui->tableWidget->item(nextRow, item_selectedSong->column());
+            // Auf das Element in der nächsten Zeile zugreifen
+            item_selectedSong = ui->tableWidget->item(nextRow, 0);
 
-        this->playNewSong();
+            this->playNewSong();
+        }
+    }
+    // shuffle is on
+    else
+    {
+        shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
+        if (shuffleOn_previousSong == true)
+        {
+            shuffleOn_songIndex++;
+
+            // Das letzte Element in shuffleSongList
+            QString lastSelectedItemText = shuffleSongList[shuffleOn_songIndex];
+
+            // Finden Sie das entsprechende QTableWidgetItem im tableWidget
+            QTableWidgetItem* lastSelectedItem = nullptr;
+            for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
+            {
+                if (ui->tableWidget->item(row, 0)->text() == lastSelectedItemText)
+                {
+                    lastSelectedItem = ui->tableWidget->item(row, 0);
+                    break;
+                }
+            }
+
+            item_selectedSong = lastSelectedItem;
+            this->playNewSong();
+        }
+        else
+        {
+            if (shuffleSongList.length() != ui->tableWidget->rowCount() - 1)
+            {
+                int randomNumber;
+                for (;;)
+                {
+                    randomNumber = QRandomGenerator::global()->bounded(ui->tableWidget->rowCount());
+
+                    if (randomNumber != item_selectedSong->row() && !shuffleSongList.contains(ui->tableWidget->item(randomNumber, 0)->text()))
+                    {
+                        break;
+                    }
+                }
+
+                // Auf das Element in der nächsten Zeile zugreifen
+                item_selectedSong = ui->tableWidget->item(randomNumber, 0);
+
+                this->playNewSong();
+            }
+            else
+            {
+                // nextButton deaktivieren
+                //ui->label_test->setText("nice");
+            }
+        }
     }
 }
 

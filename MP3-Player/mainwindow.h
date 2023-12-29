@@ -60,10 +60,13 @@ private:
     bool authorSorted = false;
     bool genreSorted = false;
     bool playtimeSorted = false;
+    bool shuffleOn_beginSongList = false;
+    bool shuffleOn_previousSong = false;
 
     int windowHeight;
     int windowWidth;
     int volumePosition;
+    int shuffleOn_songIndex = 0;
 
     Playlist playlist;
 
@@ -71,7 +74,7 @@ private:
     QTimer *timerPassedPlaytime = nullptr;
     QTimer *timerDoubleClick_previousSong = nullptr;
 
-    QTableWidgetItem *item_selectedSong;
+    QTableWidgetItem *item_selectedSong = nullptr;
 
     QVector<QString> shuffleSongList;
 };
