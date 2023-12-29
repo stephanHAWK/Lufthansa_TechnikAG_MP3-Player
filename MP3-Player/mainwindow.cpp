@@ -48,7 +48,17 @@ void MainWindow::setCellWidgetsInTableWidget()
         for (int column = 0; column < ui->tableWidget->columnCount(); column++)
         {
             QWidget *customWidget = new QWidget;
-            customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
+
+            // odd numbers
+            if (row % 2 != 0)
+            {
+                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
+            }
+            // even numbers
+            else
+            {
+                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1 #b3bdcf); color: white;");
+            }
             QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
             label->setAlignment(Qt::AlignLeft);
             label->setStyleSheet("color: black;");
@@ -81,7 +91,7 @@ void MainWindow::playSong()
                 label->setStyleSheet("color: black;");
                 QVBoxLayout *layout = new QVBoxLayout(customWidget);
                 layout->addWidget(label);
-                layout->setContentsMargins(0, 10, 0, 0);
+                layout->setContentsMargins(2, 10, 0, 0);
                 ui->tableWidget->setCellWidget(row, column, customWidget);
             }
 
@@ -647,6 +657,9 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         // start with the first song when nothing is selected
         item_selectedSong = ui->tableWidget->item(0, 0);
     }
+
+    // set the background-color of the rows
+    setCellWidgetsInTableWidget();
 }
 
 void MainWindow::loadData()
