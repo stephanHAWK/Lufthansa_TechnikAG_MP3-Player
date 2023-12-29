@@ -23,9 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // load the data for the tableWidget
     this->loadData();
-
-    // start with the first song when nothing is selected
-    item_selectedSong = ui->tableWidget->item(0, 0);
 }
 
 MainWindow::~MainWindow()
@@ -35,19 +32,40 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_play_clicked()
 {
+    if (item_selectedSong == nullptr)
+    {
+        // start with the first song when nothing is selected
+        item_selectedSong = ui->tableWidget->item(0, 0);
+    }
     this->playSong();
 }
 
 void MainWindow::playSong()
 {
+    QString playtime;
+
+    for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
+    {
+        if (ui->tableWidget->item(row, 0)->text() == item_selectedSong->text())
+        {
+            playtime = ui->tableWidget->item(row, 3)->text();
+
+            QWidget *customWidget = new QWidget;
+            customWidget->setStyleSheet("background-color: black; color: white;"); // Beispiel-Styling
+
+            ui->tableWidget->setCellWidget(row, 0, customWidget);
+
+            ui->label_test->setText(playtime);
+            break;
+        }
+    }
+
     /*
     if (shuffleOn_previousSong == false)
     {
         shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
     }
 */
-
-    QString playtime = ui->tableWidget->item(item_selectedSong->row(), 3)->text();
 
     // set the playtime from the song to the ui
     ui->label_timeDuration->setText(playtime);
@@ -127,6 +145,16 @@ void MainWindow::on_pushButton_shuffle_clicked()
     {
         shuffleOn = true;
 
+        ui->pushButton_shuffle->setStyleSheet("QPushButton {"
+                                              "border-image: url(:/icons/icons/shuffleOn.png);"
+                                              "background-color: transparent;"
+                                              "}"
+                                              "QPushButton:hover {"
+                                              "border-image: url(:/icons/icons/shuffleOnHover.png);"
+                                              "}"
+                                              );
+
+
         if (item_selectedSong != nullptr)
         {
             shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
@@ -135,6 +163,15 @@ void MainWindow::on_pushButton_shuffle_clicked()
     else
     {
         shuffleOn = false;
+
+        ui->pushButton_shuffle->setStyleSheet("QPushButton {"
+                                              "border-image: url(:/icons/icons/shuffleOff.png);"
+                                              "background-color: transparent;"
+                                              "}"
+                                              "QPushButton:hover {"
+                                              "border-image: url(:/icons/icons/shuffleOffHover.png);"
+                                              "}"
+                                              );
     }
 }
 
@@ -312,7 +349,57 @@ void MainWindow::nextSong()
 
 void MainWindow::on_pushButton_repeat_clicked()
 {
+    if (repeatOn == true && repeatOn_onlySong == false)
+    {
+        repeatOn = false;
+        repeatOn_onlySong = true;
 
+        ui->pushButton_repeat->setStyleSheet("QPushButton {"
+                                             "border-image: url(:/icons/icons/repeatOn.png);"
+                                             "background-color: transparent;"
+                                             "max-width: 47px;"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "border-image: url(:/icons/icons/repeatOnHover.png);"
+                                             "}"
+                                             );
+
+        ui->pushButton_repeat->setGeometry(367, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
+    }
+    else if (repeatOn == false && repeatOn_onlySong == true)
+    {
+        repeatOn = true;
+        repeatOn_onlySong = true;
+
+        ui->pushButton_repeat->setStyleSheet("QPushButton {"
+                                             "border-image: url(:/icons/icons/repeatOnlySong.png);"
+                                             "background-color: transparent;"
+                                             "min-width: 51px;"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "border-image: url(:/icons/icons/repeatOnlySongHover.png);"
+                                             "}"
+                                             );
+
+        ui->pushButton_repeat->setGeometry(364, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
+    }
+    else
+    {
+        repeatOn = true;
+        repeatOn_onlySong = false;
+
+        ui->pushButton_repeat->setStyleSheet("QPushButton {"
+                                             "border-image: url(:/icons/icons/repeatOff.png);"
+                                             "background-color: transparent;"
+                                             "min-width: 51px;"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "border-image: url(:/icons/icons/repeatOffHover.png);"
+                                             "}"
+                                             );
+
+        ui->pushButton_repeat->setGeometry(364, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
+    }
 }
 
 void MainWindow::on_pushButton_volume_clicked()
@@ -326,14 +413,14 @@ void MainWindow::on_pushButton_volume_clicked()
         ui->horizontalSlider_volumeLevel->setSliderPosition(0);
 
         ui->pushButton_volume->setStyleSheet("QPushButton {"
-                                           "border-image: url(:/icons/icons/volumeMute.png);"
-                                           "max-width: 31px;"
-                                           "background-color: transparent;"
-                                           "}"
-                                           "QPushButton:hover {"
-                                           "border-image: url(:/icons/icons/volumeMuteHover.png);"
-                                           "}"
-                                           );
+                                             "border-image: url(:/icons/icons/volumeMute.png);"
+                                             "max-width: 31px;"
+                                             "background-color: transparent;"
+                                             "}"
+                                             "QPushButton:hover {"
+                                             "border-image: url(:/icons/icons/volumeMuteHover.png);"
+                                             "}"
+                                             );
 
         soundMuted = true;
     }
@@ -460,8 +547,6 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         genreSorted = false;
         playtimeSorted = false;
 
-        this->loadData();
-
         if (titleSorted == false)
         {
             ui->tableWidget->sortItems(0, Qt::AscendingOrder);
@@ -479,8 +564,6 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         titleSorted = false;
         genreSorted = false;
         playtimeSorted = false;
-
-        this->loadData();
 
         if (authorSorted == false)
         {
@@ -500,8 +583,6 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         authorSorted = false;
         playtimeSorted = false;
 
-        this->loadData();
-
         if (genreSorted == false)
         {
             ui->tableWidget->sortItems(2, Qt::AscendingOrder);
@@ -520,8 +601,6 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         authorSorted = false;
         genreSorted = false;
 
-        this->loadData();
-
         if (playtimeSorted == false)
         {
             ui->tableWidget->sortItems(3, Qt::AscendingOrder);
@@ -532,6 +611,12 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
             ui->tableWidget->sortItems(3, Qt::DescendingOrder);
             playtimeSorted = false;
         }
+    }
+
+    if (item_selectedSong == nullptr)
+    {
+        // start with the first song when nothing is selected
+        item_selectedSong = ui->tableWidget->item(0, 0);
     }
 }
 
@@ -620,7 +705,7 @@ void MainWindow::handleItemEntered(QTableWidgetItem* item)
 
 void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
-    item_selectedSong = item;
+    item_selectedSong = ui->tableWidget->item(item->row(), 0);
 }
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
@@ -655,3 +740,121 @@ void MainWindow::on_horizontalSlider_songProgress_valueChanged(int value)
     ui->label_timePassed->setText(QString("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')));
     ui->horizontalSlider_songProgress->setValue(value);
 }
+
+
+void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
+{
+    ui->horizontalSlider_volumeLevel->setStyleSheet("QSlider::groove:horizontal {"
+                                                    "border: 1px solid black;"
+                                                    "background: white;"
+                                                    "height: 10px;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::handle:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "width: 20px;"
+                                                    "margin: -2px 0;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::add-page:horizontal {"
+                                                    "background: white;  "
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::sub-page:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #f9ba00);"
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    );
+
+}
+
+
+void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
+{
+    ui->horizontalSlider_volumeLevel->setStyleSheet("QSlider::groove:horizontal {"
+                                                    "border: 1px solid black;"
+                                                    "background: white;"
+                                                    "height: 10px;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::handle:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "width: 20px;"
+                                                    "margin: -2px 0;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::add-page:horizontal {"
+                                                    "background: white;  "
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::sub-page:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    );
+}
+
+
+void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
+{
+    ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal {"
+                                                    "border: 1px solid black;"
+                                                    "background: white;"
+                                                    "height: 10px;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::handle:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "width: 20px;"
+                                                    "margin: -2px 0;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::add-page:horizontal {"
+                                                    "background: white;  "
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::sub-page:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #f9ba00);"
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    );
+}
+
+
+void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
+{
+    ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal {"
+                                                    "border: 1px solid black;"
+                                                    "background: white;"
+                                                    "height: 10px;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::handle:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "width: 20px;"
+                                                    "margin: -2px 0;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::add-page:horizontal {"
+                                                    "background: white;  "
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    "QSlider::sub-page:horizontal {"
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
+                                                    "border: 1px solid black;"
+                                                    "border-radius: 5px;"
+                                                    "}"
+                                                    );
+}
+

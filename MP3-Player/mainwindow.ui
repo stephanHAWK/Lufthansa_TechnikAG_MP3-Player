@@ -164,12 +164,12 @@ QPushButton:hover
      <string notr="true">QPushButton
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/shuffle.png);
+	border-image: url(:/icons/icons/shuffleOff.png);
 }
 
 QPushButton:hover
 {
-	border-image: url(:/icons/icons/shuffleHover.png);
+	border-image: url(:/icons/icons/shuffleOffHover.png);
 }</string>
     </property>
     <property name="text">
@@ -197,12 +197,12 @@ QPushButton:hover
      <string notr="true">QPushButton
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/repeat.png);
+	border-image: url(:/icons/icons/repeatOff.png);
 }
 
 QPushButton:hover
 {
-	border-image: url(:/icons/icons/repeatHover.png);
+	border-image: url(:/icons/icons/repeatOffHover.png);
 }</string>
     </property>
     <property name="text">
@@ -320,16 +320,16 @@ QPushButton:hover
     <property name="styleSheet">
      <string notr="true">QSlider::groove:horizontal 
 {
-    border: 1px solid #5c5c5c;
-    background: #dddddd;
+    border: 1px solid black;
+    background: white;
     height: 10px;
     border-radius: 5px;
 }
 
 QSlider::handle:horizontal 
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 black);
-    border: 1px solid #5c5c5c;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
+    border: 1px solid black;
     width: 20px;
     margin: -2px 0;
     border-radius: 5px;
@@ -338,16 +338,16 @@ QSlider::handle:horizontal
 /* color on the right side from handle */
 QSlider::add-page:horizontal
  {
-    background: #dddddd;  
-    border: 1px solid #999999;
+    background: white;  
+    border: 1px solid black;
     border-radius: 5px;
 }
 
  /* color on the left side from handle */
 QSlider::sub-page:horizontal
  {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 black);
-    border: 1px solid #5c5c5c;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
+    border: 1px solid black;
     border-radius: 5px;
 }</string>
     </property>
@@ -415,14 +415,17 @@ QPushButton:hover
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>781</width>
+      <x>90</x>
+      <y>20</y>
+      <width>641</width>
       <height>361</height>
      </rect>
     </property>
     <property name="mouseTracking">
      <bool>true</bool>
+    </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
     </property>
     <property name="layoutDirection">
      <enum>Qt::LeftToRight</enum>
@@ -430,10 +433,17 @@ QPushButton:hover
     <property name="styleSheet">
      <string notr="true">QTableWidget::item
 {
-	background-color: blue;
-    border: 1px solid black;
+	color: black;
+	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af);
+	border-bottom: 1px solid black; 
+	border-top: 1px solid black;
 }
-</string>
+
+QTableWidget::item:hover
+{
+	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1#99a7bf);
+    border: 1px solid black;
+}</string>
     </property>
     <column>
      <property name="text">
@@ -490,16 +500,16 @@ QPushButton:hover
     <property name="styleSheet">
      <string notr="true">QSlider::groove:horizontal 
 {
-    border: 1px solid #5c5c5c;
-    background: #dddddd;
+    border: 1px solid black;
+    background: white;
     height: 10px;
     border-radius: 5px;
 }
 
 QSlider::handle:horizontal 
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 blue);
-    border: 1px solid #5c5c5c;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
+    border: 1px solid black;
     width: 20px;
     margin: -2px 0;
     border-radius: 5px;
@@ -508,16 +518,16 @@ QSlider::handle:horizontal
 /* color on the right side from handle */
 QSlider::add-page:horizontal
  {
-    background: #dddddd;  
-    border: 1px solid #999999;
+    background: white;  
+    border: 1px solid black;
     border-radius: 5px;
 }
 
  /* color on the left side from handle */
 QSlider::sub-page:horizontal
  {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #eeeeee, stop:1 blue);
-    border: 1px solid #5c5c5c;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
+    border: 1px solid black;
     border-radius: 5px;
 }</string>
     </property>
@@ -541,7 +551,7 @@ QSlider::sub-page:horizontal
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

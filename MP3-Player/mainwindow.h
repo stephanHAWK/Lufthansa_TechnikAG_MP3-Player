@@ -48,6 +48,10 @@ private slots:
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void playNewSong();
     void on_horizontalSlider_songProgress_valueChanged(int value);
+    void on_horizontalSlider_volumeLevel_sliderPressed();
+    void on_horizontalSlider_volumeLevel_sliderReleased();
+    void on_horizontalSlider_songProgress_sliderPressed();
+    void on_horizontalSlider_songProgress_sliderReleased();
 
 private:
     Ui::MainWindow *ui;
@@ -55,6 +59,8 @@ private:
     bool songPaused = false;
     bool soundMuted = false;
     bool shuffleOn = false;
+    bool repeatOn = true;
+    bool repeatOn_onlySong = false;
     bool fullscreen = false;
     bool titleSorted = false;
     bool authorSorted = false;
