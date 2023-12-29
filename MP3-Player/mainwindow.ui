@@ -430,7 +430,7 @@ QPushButton:hover
     <property name="styleSheet">
      <string notr="true">QTableWidget::item
 {
-	background-color: lightblue;
+	background-color: blue;
     border: 1px solid black;
 }
 </string>
@@ -441,6 +441,13 @@ QPushButton:hover
      </property>
      <property name="textAlignment">
       <set>AlignLeading|AlignVCenter</set>
+     </property>
+     <property name="background">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
      </property>
     </column>
     <column>

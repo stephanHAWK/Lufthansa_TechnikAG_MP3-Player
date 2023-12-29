@@ -40,6 +40,13 @@ void MainWindow::on_pushButton_play_clicked()
 
 void MainWindow::playSong()
 {
+    /*
+    if (shuffleOn_previousSong == false)
+    {
+        shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
+    }
+*/
+
     QString playtime = ui->tableWidget->item(item_selectedSong->row(), 3)->text();
 
     // set the playtime from the song to the ui
@@ -170,18 +177,15 @@ void MainWindow::on_pushButton_previousSong_clicked()
             if (shuffleOn_beginSongList == false)
             {
                 shuffleOn_songIndex = shuffleSongList.size() - 1;
-                ui->label_test->setText(QString::number(shuffleOn_songIndex));
                 shuffleOn_beginSongList = true;
             }
             else
             {
                 shuffleOn_songIndex--;
-                ui->label_test->setText(QString::number(shuffleOn_songIndex));
                 if (shuffleOn_songIndex < 0)
                 {
                     shuffleOn_songIndex = 0;
                 }
-                ui->label_test->setText(QString::number(shuffleOn_songIndex));
             }
 
             // Überprüfen, ob lastIndex gültig ist
@@ -255,27 +259,27 @@ void MainWindow::nextSong()
     // shuffle is on
     else
     {
-        shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
         if (shuffleOn_previousSong == true)
         {
-            shuffleOn_songIndex++;
-
             // Das letzte Element in shuffleSongList
             QString lastSelectedItemText = shuffleSongList[shuffleOn_songIndex];
 
-            // Finden Sie das entsprechende QTableWidgetItem im tableWidget
-            QTableWidgetItem* lastSelectedItem = nullptr;
             for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
             {
                 if (ui->tableWidget->item(row, 0)->text() == lastSelectedItemText)
                 {
-                    lastSelectedItem = ui->tableWidget->item(row, 0);
+                    item_selectedSong = ui->tableWidget->item(row, 0);
                     break;
                 }
             }
 
-            item_selectedSong = lastSelectedItem;
             this->playNewSong();
+
+            shuffleOn_songIndex++;
+            if (shuffleOn_songIndex > shuffleSongList.size())
+            {
+                shuffleOn_previousSong = false;
+            }
         }
         else
         {
@@ -621,6 +625,7 @@ void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
+    this->shuffleSongList.clear();
     this->playNewSong();
 }
 
