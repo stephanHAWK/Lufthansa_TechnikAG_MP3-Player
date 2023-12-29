@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // load the data for the tableWidget
     this->loadData();
+    this->setCellWidgetsInTableWidget();
 }
 
 MainWindow::~MainWindow()
@@ -40,22 +41,50 @@ void MainWindow::on_pushButton_play_clicked()
     this->playSong();
 }
 
+void MainWindow::setCellWidgetsInTableWidget()
+{
+    for (int row = 0; row < ui->tableWidget->rowCount(); row++)
+    {
+        for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+        {
+            QWidget *customWidget = new QWidget;
+            customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
+            QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
+            label->setAlignment(Qt::AlignLeft);
+            label->setStyleSheet("color: black;");
+            QVBoxLayout *layout = new QVBoxLayout(customWidget);
+            layout->addWidget(label);
+            layout->setContentsMargins(5, 10, 0, 0);
+            ui->tableWidget->setCellWidget(row, column, customWidget);
+        }
+    }
+}
+
 void MainWindow::playSong()
 {
+    this->setCellWidgetsInTableWidget();
+
     QString playtime;
 
-    for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
+    for (int row = 0; row < ui->tableWidget->rowCount(); row++)
     {
         if (ui->tableWidget->item(row, 0)->text() == item_selectedSong->text())
         {
             playtime = ui->tableWidget->item(row, 3)->text();
 
-            QWidget *customWidget = new QWidget;
-            customWidget->setStyleSheet("background-color: black; color: white;"); // Beispiel-Styling
+            for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+            {
+                QWidget *customWidget = new QWidget;
+                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+                QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
+                label->setAlignment(Qt::AlignLeft);
+                label->setStyleSheet("color: black;");
+                QVBoxLayout *layout = new QVBoxLayout(customWidget);
+                layout->addWidget(label);
+                layout->setContentsMargins(0, 10, 0, 0);
+                ui->tableWidget->setCellWidget(row, column, customWidget);
+            }
 
-            ui->tableWidget->setCellWidget(row, 0, customWidget);
-
-            ui->label_test->setText(playtime);
             break;
         }
     }

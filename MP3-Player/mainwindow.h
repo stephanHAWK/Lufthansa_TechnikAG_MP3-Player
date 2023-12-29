@@ -8,6 +8,7 @@
 #include <QString>
 #include <QTime>
 #include <QRandomGenerator>
+#include <QVBoxLayout>
 
 #include "playlist.h"
 
@@ -28,6 +29,7 @@ public:
 
 private slots:
     void on_pushButton_play_clicked();
+    void setCellWidgetsInTableWidget();
     void playSong();
     void on_pushButton_shuffle_clicked();
     void on_pushButton_previousSong_clicked();
