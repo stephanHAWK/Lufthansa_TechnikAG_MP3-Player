@@ -7,6 +7,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Add your QTableWidget to the layout
+    ui->verticalLayout_mp3PlayerLayout->addWidget(ui->tableWidget);
+
+    // Add a stretch to push the QTableWidget to the top
+    ui->verticalLayout_mp3PlayerLayout->addStretch();
+
+    ui->verticalLayout_mp3PlayerLayout->addStretch();
+    // Set the central widget's layout
+    ui->centralwidget->setLayout(ui->verticalLayout_mp3PlayerLayout);
+
+
     // Connect the sectionClicked signal to the handleHorizontalHeaderClicked slot.
     connect(ui->tableWidget->horizontalHeader(), &QHeaderView::sectionClicked, this, &MainWindow::handleHorizontalHeaderClicked);
     // Connect the itemEntered and itemExited signals to your custom slots.
@@ -136,8 +147,17 @@ void MainWindow::playSong()
             // Check if the maximum value is reached
             if (ui->horizontalSlider_songProgress->value() >= ui->horizontalSlider_songProgress->maximum())
             {
-                // play next Song
-                this->nextSong();
+                if (repeatOn_onlySong)
+                {
+                    item_selectedSong = ui->tableWidget->item(item_selectedSong->row(), 0);
+
+                    this->playNewSong();
+                }
+                else
+                {
+                    // play next Song
+                    this->nextSong();
+                }
             }
         });
 
@@ -284,7 +304,7 @@ void MainWindow::on_pushButton_shuffle_clicked()
         }
         else
         {
-            this->loadData();
+            //this->loadData();
         }
 
         // Auf das Element in der nächsten Zeile zugreifen
@@ -410,12 +430,20 @@ void MainWindow::nextSong()
         // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
         if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
         {
-            int nextRow = item_selectedSong->row() + 1;
-
-            // Auf das Element in der nächsten Zeile zugreifen
-            item_selectedSong = ui->tableWidget->item(nextRow, 0);
+           // Auf das Element in der nächsten Zeile zugreifen
+           item_selectedSong = ui->tableWidget->item(item_selectedSong->row() + 1, 0);
 
             this->playNewSong();
+        }
+        else
+        {
+            // when the end is reached it begins again at the start
+            if (repeatOn)
+            {
+                item_selectedSong = ui->tableWidget->item(0, 0);
+
+                this->playNewSong();
+            }
         }
     //}
     /*
@@ -476,10 +504,10 @@ void MainWindow::nextSong()
 
 void MainWindow::on_pushButton_repeat_clicked()
 {
-    if (repeatOn == true && repeatOn_onlySong == false)
+    if (repeatOn == false && repeatOn_onlySong == false)
     {
-        repeatOn = false;
-        repeatOn_onlySong = true;
+        repeatOn = true;
+        repeatOn_onlySong = false;
 
         ui->pushButton_repeat->setStyleSheet("QPushButton {"
                                              "border-image: url(:/icons/icons/repeatOn.png);"
@@ -493,9 +521,9 @@ void MainWindow::on_pushButton_repeat_clicked()
 
         ui->pushButton_repeat->setGeometry(367, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
     }
-    else if (repeatOn == false && repeatOn_onlySong == true)
+    else if (repeatOn == true && repeatOn_onlySong == false)
     {
-        repeatOn = true;
+        repeatOn = false;
         repeatOn_onlySong = true;
 
         ui->pushButton_repeat->setStyleSheet("QPushButton {"
@@ -512,7 +540,7 @@ void MainWindow::on_pushButton_repeat_clicked()
     }
     else
     {
-        repeatOn = true;
+        repeatOn = false;
         repeatOn_onlySong = false;
 
         ui->pushButton_repeat->setStyleSheet("QPushButton {"
@@ -792,7 +820,7 @@ void MainWindow::loadData()
         ui->tableWidget->setItem(row, 3, new QTableWidgetItem(playlist.getPlaylist().at(row).playtime));
     }
 
-    //this->tableWidget_setItemsFlags();
+    this->tableWidget_setItemsFlags();
 }
 
 void MainWindow::tableWidget_setItemsFlags()

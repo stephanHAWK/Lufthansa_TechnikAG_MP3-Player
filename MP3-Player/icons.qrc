@@ -28,5 +28,6 @@
         <file>icons/shuffleOffHover.png</file>
         <file>icons/shuffleOnHover.png</file>
         <file>icons/repeatOffHover.png</file>
+        <file>icons/fullscreenHover.png</file>
     </qresource>
 </RCC>

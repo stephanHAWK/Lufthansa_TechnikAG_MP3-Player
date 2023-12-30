@@ -60,7 +60,7 @@ private:
     bool songPaused = false;
     bool soundMuted = false;
     bool shuffleOn = false;
-    bool repeatOn = true;
+    bool repeatOn = false;
     bool repeatOn_onlySong = false;
     bool fullscreen = false;
     bool titleSortedAscending = false;
