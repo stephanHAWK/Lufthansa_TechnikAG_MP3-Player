@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1084</width>
+    <height>783</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>MP3-Player</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icons/icons/logo.png</normaloff>:/icons/icons/logo.png</iconset>
+  </property>
   <property name="layoutDirection">
    <enum>Qt::RightToLeft</enum>
   </property>
@@ -42,7 +46,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -68,8 +72,8 @@
      <rect>
       <x>0</x>
       <y>11</y>
-      <width>791</width>
-      <height>597</height>
+      <width>818</width>
+      <height>599</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_mp3PlayerLayout">
@@ -86,31 +90,47 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QTableWidget" name="tableWidget">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>400</height>
-        </size>
-       </property>
-       <property name="mouseTracking">
-        <bool>true</bool>
-       </property>
-       <property name="toolTipDuration">
-        <number>-1</number>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QTableWidget::item
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>680</width>
+           <height>410</height>
+          </size>
+         </property>
+         <property name="mouseTracking">
+          <bool>true</bool>
+         </property>
+         <property name="toolTipDuration">
+          <number>-1</number>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTableWidget::item
 {
+	width: 200px;
 	color: black;
 	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af);
 	border-bottom: 1px solid black; 
@@ -122,47 +142,78 @@ QTableWidget::item:hover
 	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1#99a7bf);
     border: 1px solid black;
 }</string>
+         </property>
+         <column>
+          <property name="text">
+           <string>Title</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
+          <property name="background">
+           <color>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+           </color>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Author</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Genre</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Playtime</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignLeading|AlignVCenter</set>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <column>
-        <property name="text">
-         <string>Title</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignLeading|AlignVCenter</set>
-        </property>
-        <property name="background">
-         <color>
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Author</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignLeading|AlignVCenter</set>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Genre</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignLeading|AlignVCenter</set>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Playtime</string>
-        </property>
-        <property name="textAlignment">
-         <set>AlignLeading|AlignVCenter</set>
-        </property>
-       </column>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>500</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_songInfos">
@@ -267,6 +318,9 @@ QSlider::sub-page:horizontal
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_songButtons" stretch="0,0,0,0,0,0,0,0">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
@@ -280,8 +334,14 @@ QSlider::sub-page:horizontal
          </property>
          <property name="minimumSize">
           <size>
-           <width>100</width>
+           <width>200</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="layoutDirection">
@@ -655,13 +715,15 @@ QPushButton:hover
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1084</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

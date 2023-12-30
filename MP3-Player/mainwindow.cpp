@@ -7,16 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Add your QTableWidget to the layout
-    ui->verticalLayout_mp3PlayerLayout->addWidget(ui->tableWidget);
-
-    // Add a stretch to push the QTableWidget to the top
-    ui->verticalLayout_mp3PlayerLayout->addStretch();
 
     ui->verticalLayout_mp3PlayerLayout->addStretch();
     // Set the central widget's layout
     ui->centralwidget->setLayout(ui->verticalLayout_mp3PlayerLayout);
-
 
     // Connect the sectionClicked signal to the handleHorizontalHeaderClicked slot.
     connect(ui->tableWidget->horizontalHeader(), &QHeaderView::sectionClicked, this, &MainWindow::handleHorizontalHeaderClicked);
