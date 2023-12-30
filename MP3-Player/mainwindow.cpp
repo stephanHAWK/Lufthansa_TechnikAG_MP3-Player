@@ -6,7 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    //QFlags flags = Qt::CustomizeWindowHint; //Qt::FramelessWindowHint;
+    //this->setWindowFlags(flags);
 
     ui->verticalLayout_mp3PlayerLayout->addStretch();
     // Set the central widget's layout
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setColumnWidth(2, 150);
     // Playtime
     ui->tableWidget->setColumnWidth(3, 80);
+
 
     // load the data for the tableWidget
     this->loadData();
@@ -79,29 +81,22 @@ void MainWindow::playSong()
 {
     this->setCellWidgetsInTableWidget();
 
-    QString playtime;
+    QString playtime = ui->tableWidget->item(item_selectedSong->row(), 3)->text();
 
-    for (int row = 0; row < ui->tableWidget->rowCount(); row++)
+    // set the playtime from the song to the ui
+    ui->label_timeDuration->setText(playtime);
+
+    for (int column = 0; column < ui->tableWidget->columnCount(); column++)
     {
-        if (ui->tableWidget->item(row, 0)->text() == item_selectedSong->text())
-        {
-            playtime = ui->tableWidget->item(row, 3)->text();
-
-            for (int column = 0; column < ui->tableWidget->columnCount(); column++)
-            {
-                QWidget *customWidget = new QWidget;
-                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
-                QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
-                label->setAlignment(Qt::AlignLeft);
-                label->setStyleSheet("color: black;");
-                QVBoxLayout *layout = new QVBoxLayout(customWidget);
-                layout->addWidget(label);
-                layout->setContentsMargins(2, 10, 0, 0);
-                ui->tableWidget->setCellWidget(row, column, customWidget);
-            }
-
-            break;
-        }
+        QWidget *customWidget = new QWidget;
+        customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+        QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
+        label->setAlignment(Qt::AlignLeft);
+        label->setStyleSheet("color: black;");
+        QVBoxLayout *layout = new QVBoxLayout(customWidget);
+        layout->addWidget(label);
+        layout->setContentsMargins(2, 10, 0, 0);
+        ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
     }
 
     /*
@@ -110,9 +105,6 @@ void MainWindow::playSong()
         shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
     }
     */
-
-    // set the playtime from the song to the ui
-    ui->label_timeDuration->setText(playtime);
 
     // pause the song
     if (songPaused == false)
@@ -264,6 +256,13 @@ void MainWindow::on_pushButton_shuffle_clicked()
                                               "}"
                                               );
 
+
+        // Auf das Element in der nächsten Zeile zugreifen
+        if (item_selectedSong == nullptr)
+        {
+            item_selectedSong = ui->tableWidget->item(0, 0);
+        }
+
         if (titleSortedAscending == true)
         {
             ui->tableWidget->sortItems(0, Qt::AscendingOrder);
@@ -298,17 +297,26 @@ void MainWindow::on_pushButton_shuffle_clicked()
         }
         else
         {
-            //this->loadData();
-        }
-
-        // Auf das Element in der nächsten Zeile zugreifen
-        if (item_selectedSong == nullptr)
-        {
-            item_selectedSong = ui->tableWidget->item(0, 0);
+            this->loadData();
+            item_selectedSong = ui->tableWidget->item(0,0);
         }
 
         this->setCellWidgetsInTableWidget();
-        this->playNewSong();
+
+
+        for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+        {
+            QWidget *customWidget = new QWidget;
+            customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+            QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
+            label->setAlignment(Qt::AlignLeft);
+            label->setStyleSheet("color: black;");
+            QVBoxLayout *layout = new QVBoxLayout(customWidget);
+            layout->addWidget(label);
+            layout->setContentsMargins(2, 10, 0, 0);
+            ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+        }
+
     }
 }
 
@@ -931,7 +939,7 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
                                                     "border-radius: 5px;"
                                                     "}"
                                                     "QSlider::add-page:horizontal {"
-                                                    "background: white;  "
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf); "
                                                     "border: 1px solid black;"
                                                     "border-radius: 5px;"
                                                     "}"
@@ -959,7 +967,7 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
                                                     "border-radius: 5px;"
                                                     "}"
                                                     "QSlider::add-page:horizontal {"
-                                                    "background: white;  "
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf); "
                                                     "border: 1px solid black;"
                                                     "border-radius: 5px;"
                                                     "}"
@@ -987,7 +995,7 @@ void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
                                                     "border-radius: 5px;"
                                                     "}"
                                                     "QSlider::add-page:horizontal {"
-                                                    "background: white;  "
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
                                                     "border: 1px solid black;"
                                                     "border-radius: 5px;"
                                                     "}"
@@ -1015,7 +1023,7 @@ void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
                                                     "border-radius: 5px;"
                                                     "}"
                                                     "QSlider::add-page:horizontal {"
-                                                    "background: white;  "
+                                                    "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
                                                     "border: 1px solid black;"
                                                     "border-radius: 5px;"
                                                     "}"
