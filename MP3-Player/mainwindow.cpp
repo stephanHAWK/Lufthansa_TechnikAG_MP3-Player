@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->tableWidget, &QTableWidget::itemEntered, this, &MainWindow::handleItemEntered);
 
     // Title
-    ui->tableWidget->setColumnWidth(0, 150);
+    ui->tableWidget->setColumnWidth(0, 200);
     // Author
     ui->tableWidget->setColumnWidth(1, 200);
     // Genre
@@ -48,7 +48,7 @@ void MainWindow::setCellWidgetsInTableWidget()
         for (int column = 0; column < ui->tableWidget->columnCount(); column++)
         {
             QWidget *customWidget = new QWidget;
-
+            customWidget->setMouseTracking(true);
             // odd numbers
             if (row % 2 != 0)
             {
@@ -104,7 +104,7 @@ void MainWindow::playSong()
     {
         shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
     }
-*/
+    */
 
     // set the playtime from the song to the ui
     ui->label_timeDuration->setText(playtime);
@@ -193,11 +193,49 @@ void MainWindow::on_pushButton_shuffle_clicked()
                                               "}"
                                               );
 
+        Playlist playlist;
 
+        for (int i = 1; i < 11; i++)
+        {
+            QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\Lufthansa_MP3-Player\\MP3-Player\\mp3Tags\\song" + QString::number(i) + ".txt";
+            playlist.loadSongInfo(filePath);
+        }
+
+        // Store indices in a list to shuffle
+        QList<int> rowIndices;
+        for (int row = 0; row < playlist.getPlaylist().size(); row++)
+        {
+            rowIndices << row;
+        }
+
+        // Shuffle the list of indices randomly
+        std::random_shuffle(rowIndices.begin(), rowIndices.end());
+
+        // Update the QTableWidget with shuffled items
+        ui->tableWidget->setRowCount(rowIndices.count());
+
+        for (int row = 0; row < playlist.getPlaylist().size(); row++)
+        {
+            int rowIndex = rowIndices.at(0);
+
+            ui->tableWidget->setItem(row, 0, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).title));
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).author));
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).genre));
+            ui->tableWidget->setItem(row, 3, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).playtime));
+
+            rowIndices.removeAt(0);
+        }
+
+        // Auf das Element in der nächsten Zeile zugreifen
+        item_selectedSong = ui->tableWidget->item(0, 0);
+        this->playNewSong();
+
+        /*
         if (item_selectedSong != nullptr)
         {
             shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
         }
+        */
     }
     else
     {
@@ -211,13 +249,59 @@ void MainWindow::on_pushButton_shuffle_clicked()
                                               "border-image: url(:/icons/icons/shuffleOffHover.png);"
                                               "}"
                                               );
+
+        if (titleSortedAscending == true)
+        {
+            ui->tableWidget->sortItems(0, Qt::AscendingOrder);
+        }
+        else if (titleSortedDescending == true)
+        {
+            ui->tableWidget->sortItems(0, Qt::DescendingOrder);
+        }
+        else if (authorSortedAscending == true)
+        {
+            ui->tableWidget->sortItems(1, Qt::AscendingOrder);
+        }
+        else if (authorSortedDescending == true)
+        {
+            ui->tableWidget->sortItems(1, Qt::DescendingOrder);
+        }
+        else if (genreSortedAscending == true)
+        {
+            ui->tableWidget->sortItems(2, Qt::AscendingOrder);
+        }
+        else if (genreSortedDescending == true)
+        {
+            ui->tableWidget->sortItems(2, Qt::DescendingOrder);
+        }
+        else if (playtimeSortedAscending == true)
+        {
+            ui->tableWidget->sortItems(3, Qt::AscendingOrder);
+        }
+        else if (playtimeSortedDescending == true)
+        {
+            ui->tableWidget->sortItems(3, Qt::DescendingOrder);
+        }
+        else
+        {
+            this->loadData();
+        }
+
+        // Auf das Element in der nächsten Zeile zugreifen
+        if (item_selectedSong == nullptr)
+        {
+            item_selectedSong = ui->tableWidget->item(0, 0);
+        }
+
+        this->setCellWidgetsInTableWidget();
+        this->playNewSong();
     }
 }
 
 void MainWindow::on_pushButton_previousSong_clicked()
 {
-    if (shuffleOn == false)
-    {
+    //if (shuffleOn == false)
+    //{
         // doubleClick
         if (timerDoubleClick_previousSong != nullptr)
         {
@@ -241,7 +325,8 @@ void MainWindow::on_pushButton_previousSong_clicked()
         {
             ui->horizontalSlider_songProgress->setValue(0);
         }
-    }
+    //}
+    /*
     // shuffleOn == true
     else
     {
@@ -296,6 +381,7 @@ void MainWindow::on_pushButton_previousSong_clicked()
             ui->horizontalSlider_songProgress->setValue(0);
         }
     }
+    */
 
     timerDoubleClick_previousSong = new QTimer(ui->pushButton_previousSong);
     timerDoubleClick_previousSong->setSingleShot(true);  // Der Timer wird nur einmal ausgelöst
@@ -319,8 +405,8 @@ void MainWindow::on_pushButton_nextSong_clicked()
 
 void MainWindow::nextSong()
 {
-    if (shuffleOn == false)
-    {
+    //if (shuffleOn == false)
+    //{
         // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
         if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
         {
@@ -331,7 +417,8 @@ void MainWindow::nextSong()
 
             this->playNewSong();
         }
-    }
+    //}
+    /*
     // shuffle is on
     else
     {
@@ -384,6 +471,7 @@ void MainWindow::nextSong()
             }
         }
     }
+    */
 }
 
 void MainWindow::on_pushButton_repeat_clicked()
@@ -582,73 +670,93 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
     // Title
     if (logicalIndex == 0)
     {
-        authorSorted = false;
-        genreSorted = false;
-        playtimeSorted = false;
+        authorSortedAscending = false;
+        genreSortedAscending = false;
+        playtimeSortedAscending = false;
+        authorSortedDescending = false;
+        genreSortedDescending = false;
+        playtimeSortedDescending = false;
 
-        if (titleSorted == false)
+        if (titleSortedAscending == false)
         {
             ui->tableWidget->sortItems(0, Qt::AscendingOrder);
-            titleSorted = true;
+            titleSortedAscending = true;
+            titleSortedDescending = false;
         }
         else
         {
             ui->tableWidget->sortItems(0, Qt::DescendingOrder);
-            titleSorted = false;
+            titleSortedAscending = false;
+            titleSortedDescending = true;
         }
     }
     // Author
     else if (logicalIndex == 1)
     {
-        titleSorted = false;
-        genreSorted = false;
-        playtimeSorted = false;
+        titleSortedAscending = false;
+        genreSortedAscending = false;
+        playtimeSortedAscending = false;
+        titleSortedDescending = false;
+        genreSortedDescending = false;
+        playtimeSortedDescending = false;
 
-        if (authorSorted == false)
+        if (authorSortedAscending == false)
         {
             ui->tableWidget->sortItems(1, Qt::AscendingOrder);
-            authorSorted = true;
+            authorSortedAscending = true;
+            authorSortedDescending = false;
         }
         else
         {
             ui->tableWidget->sortItems(1, Qt::DescendingOrder);
-            authorSorted = false;
+            authorSortedAscending = false;
+            authorSortedDescending = true;
         }
     }
     // Genre
     else if (logicalIndex == 2)
     {
-        titleSorted = false;
-        authorSorted = false;
-        playtimeSorted = false;
+        titleSortedAscending = false;
+        authorSortedAscending = false;
+        playtimeSortedAscending = false;
+        titleSortedDescending = false;
+        authorSortedDescending = false;
+        playtimeSortedDescending = false;
 
-        if (genreSorted == false)
+        if (genreSortedAscending == false)
         {
             ui->tableWidget->sortItems(2, Qt::AscendingOrder);
-            genreSorted = true;
+            genreSortedAscending = true;
+            genreSortedDescending = false;
         }
         else
         {
             ui->tableWidget->sortItems(2, Qt::DescendingOrder);
-            genreSorted = false;
+            genreSortedAscending = false;
+            genreSortedDescending = true;
         }
     }
     // Playtime
     else if (logicalIndex == 3)
     {
-        titleSorted = false;
-        authorSorted = false;
-        genreSorted = false;
+        titleSortedAscending = false;
+        authorSortedAscending = false;
+        genreSortedAscending = false;
+        titleSortedDescending = false;
+        authorSortedDescending = false;
+        genreSortedDescending = false;
 
-        if (playtimeSorted == false)
+        if (playtimeSortedAscending == false)
         {
             ui->tableWidget->sortItems(3, Qt::AscendingOrder);
-            playtimeSorted = true;
+            playtimeSortedAscending = true;
+            playtimeSortedDescending = false;
         }
         else
         {
             ui->tableWidget->sortItems(3, Qt::DescendingOrder);
-            playtimeSorted = false;
+            playtimeSortedAscending = false;
+            playtimeSortedDescending = true;
         }
     }
 
@@ -660,6 +768,8 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
 
     // set the background-color of the rows
     setCellWidgetsInTableWidget();
+    shuffleOn = true;
+    this->on_pushButton_shuffle_clicked();
 }
 
 void MainWindow::loadData()
@@ -682,7 +792,7 @@ void MainWindow::loadData()
         ui->tableWidget->setItem(row, 3, new QTableWidgetItem(playlist.getPlaylist().at(row).playtime));
     }
 
-    this->tableWidget_setItemsFlags();
+    //this->tableWidget_setItemsFlags();
 }
 
 void MainWindow::tableWidget_setItemsFlags()
@@ -752,7 +862,7 @@ void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
-    this->shuffleSongList.clear();
+    //this->shuffleSongList.clear();
     this->playNewSong();
 }
 
@@ -783,7 +893,6 @@ void MainWindow::on_horizontalSlider_songProgress_valueChanged(int value)
     ui->horizontalSlider_songProgress->setValue(value);
 }
 
-
 void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
 {
     ui->horizontalSlider_volumeLevel->setStyleSheet("QSlider::groove:horizontal {"
@@ -810,9 +919,7 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
                                                     "border-radius: 5px;"
                                                     "}"
                                                     );
-
 }
-
 
 void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
 {
@@ -842,7 +949,6 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
                                                     );
 }
 
-
 void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
 {
     ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal {"
@@ -871,7 +977,6 @@ void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
                                                     );
 }
 
-
 void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
 {
     ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal {"
@@ -899,4 +1004,3 @@ void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
                                                     "}"
                                                     );
 }
-

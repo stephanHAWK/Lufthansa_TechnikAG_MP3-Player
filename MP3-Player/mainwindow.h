@@ -12,7 +12,6 @@
 
 #include "playlist.h"
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -64,17 +63,21 @@ private:
     bool repeatOn = true;
     bool repeatOn_onlySong = false;
     bool fullscreen = false;
-    bool titleSorted = false;
-    bool authorSorted = false;
-    bool genreSorted = false;
-    bool playtimeSorted = false;
-    bool shuffleOn_beginSongList = false;
-    bool shuffleOn_previousSong = false;
+    bool titleSortedAscending = false;
+    bool authorSortedAscending = false;
+    bool genreSortedAscending = false;
+    bool playtimeSortedAscending = false;
+    bool titleSortedDescending = false;
+    bool authorSortedDescending = false;
+    bool genreSortedDescending = false;
+    bool playtimeSortedDescending = false;
+    //bool shuffleOn_beginSongList = false;
+    //bool shuffleOn_previousSong = false;
 
     int windowHeight;
     int windowWidth;
     int volumePosition;
-    int shuffleOn_songIndex = 0;
+    //int shuffleOn_songIndex = 0;
 
     Playlist playlist;
 
@@ -84,6 +87,6 @@ private:
 
     QTableWidgetItem *item_selectedSong = nullptr;
 
-    QVector<QString> shuffleSongList;
+    //QVector<QString> shuffleSongList;
 };
 #endif // MAINWINDOW_H

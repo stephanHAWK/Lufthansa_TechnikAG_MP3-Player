@@ -40,6 +40,8 @@ else()
             ${PROJECT_SOURCES}
             icons.qrc
             playlist.h playlist.cpp
+
+
         )
     endif()
 endif()

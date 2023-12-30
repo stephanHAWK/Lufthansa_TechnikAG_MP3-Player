@@ -52,3 +52,11 @@ QVector<Song> Playlist::getPlaylist() const
 {
     return songList;
 }
+
+void Playlist::removeSong(int index)
+{
+    if (index >= 0 && index < songList.size())
+    {
+        songList.erase(songList.begin() + index);
+    }
+}

@@ -415,10 +415,10 @@ QPushButton:hover
    <widget class="QTableWidget" name="tableWidget">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>20</y>
-      <width>641</width>
-      <height>361</height>
+      <x>50</x>
+      <y>0</y>
+      <width>681</width>
+      <height>371</height>
      </rect>
     </property>
     <property name="mouseTracking">
