@@ -157,7 +157,8 @@ QHeaderView::section
 QTableWidget::item
 {
 	color: black;
-	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af);
+	/*background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af);*/
+	background-color: transparent;
 	border-bottom: 1px solid black; 
 	border-top: 1px solid black;
 }
@@ -338,7 +339,7 @@ QSlider::sub-page:horizontal
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_songButtons" stretch="0,0,0,0,0,0,0,0">
+      <layout class="QHBoxLayout" name="horizontalLayout_songButtons" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -423,8 +424,8 @@ QSlider::sub-page:horizontal
          </property>
          <property name="minimumSize">
           <size>
-           <width>41</width>
-           <height>41</height>
+           <width>51</width>
+           <height>31</height>
           </size>
          </property>
          <property name="baseSize">
@@ -465,6 +466,22 @@ QPushButton:hover
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>31</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_repeat">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -502,6 +519,22 @@ QPushButton:hover
           <string/>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>31</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_nextSong">
@@ -636,6 +669,22 @@ QPushButton:hover
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_shuffle">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -675,6 +724,22 @@ QPushButton:hover
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>31</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QPushButton" name="pushButton_fullscreen">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -684,8 +749,8 @@ QPushButton:hover
          </property>
          <property name="minimumSize">
           <size>
-           <width>51</width>
-           <height>51</height>
+           <width>41</width>
+           <height>41</height>
           </size>
          </property>
          <property name="baseSize">

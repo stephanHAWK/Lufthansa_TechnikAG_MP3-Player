@@ -55,23 +55,25 @@ void MainWindow::setCellWidgetsInTableWidget()
         for (int column = 0; column < ui->tableWidget->columnCount(); column++)
         {
             QWidget *customWidget = new QWidget;
-            customWidget->setMouseTracking(true);
             // odd numbers
             if (row % 2 != 0)
             {
-                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
+                ui->tableWidget->item(row, column)->setBackground(QBrush(QColor(Qt::red)));
+                customWidget->setStyleSheet("background-color: transparent");
+                //customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
             }
             // even numbers
             else
             {
-                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1 #b3bdcf); color: white;");
+                customWidget->setStyleSheet("background-color: transparent");
+                //customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1 #b3bdcf); color: white;");
             }
-            QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
-            label->setAlignment(Qt::AlignLeft);
-            label->setStyleSheet("color: black;");
-            QVBoxLayout *layout = new QVBoxLayout(customWidget);
-            layout->addWidget(label);
-            layout->setContentsMargins(5, 10, 0, 0);
+            //QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
+            //label->setAlignment(Qt::AlignLeft);
+            //label->setStyleSheet("color: black;");
+            //QVBoxLayout *layout = new QVBoxLayout(customWidget);
+            //layout->addWidget(label);
+            //layout->setContentsMargins(5, 10, 0, 0);
             ui->tableWidget->setCellWidget(row, column, customWidget);
         }
     }
@@ -571,7 +573,6 @@ void MainWindow::on_pushButton_volume_clicked()
 
         ui->pushButton_volume->setStyleSheet("QPushButton {"
                                              "border-image: url(:/icons/icons/volumeMute.png);"
-                                             "max-width: 31px;"
                                              "background-color: transparent;"
                                              "}"
                                              "QPushButton:hover {"
@@ -650,7 +651,6 @@ void MainWindow::setVolumeIcon(int position)
     {
         ui->pushButton_volume->setStyleSheet("QPushButton {"
                                              "border-image: url(:/icons/icons/volumeHigh.png);"
-                                             "min-width: 51px;"
                                              "background-color: transparent;"
                                              "}"
                                              "QPushButton:hover {"
@@ -662,7 +662,6 @@ void MainWindow::setVolumeIcon(int position)
     {
         ui->pushButton_volume->setStyleSheet("QPushButton {"
                                              "border-image: url(:/icons/icons/volumeMute.png);"
-                                             "max-width: 31px;"
                                              "background-color: transparent;"
                                              "}"
                                              "QPushButton:hover {"
@@ -674,7 +673,6 @@ void MainWindow::setVolumeIcon(int position)
     {
         ui->pushButton_volume->setStyleSheet("QPushButton {"
                                              "border-image: url(:/icons/icons/volumeLow.png);"
-                                             "max-width: 31px;"
                                              "background-color: transparent;"
                                              "}"
                                              "QPushButton:hover {"
@@ -841,8 +839,10 @@ void MainWindow::tableWidget_setItemsFlags()
     }
 }
 
+
 void MainWindow::handleItemEntered(QTableWidgetItem* item)
 {
+    ui->label_test->setText(item->text());
     // Perform actions when the mouse enters a item from tableWidget
 
     // Stop the existing timer if any
