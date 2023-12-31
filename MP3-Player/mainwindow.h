@@ -9,6 +9,9 @@
 #include <QTime>
 #include <QRandomGenerator>
 #include <QVBoxLayout>
+#include <QFileDialog>
+#include <QFile>
+#include <QTextStream>
 
 #include "playlist.h"
 
@@ -27,32 +30,37 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_play_clicked();
-    void setCellWidgetsInTableWidget();
-    void playSong();
+    void on_pushButton_addSong_clicked();
+    void loadData();
+
+    void on_horizontalSlider_songProgress_valueChanged(int value);
+    void on_horizontalSlider_songProgress_sliderPressed();
+    void on_horizontalSlider_songProgress_sliderReleased();
+    void on_horizontalSlider_volumeLevel_valueChanged(int value);
+    void on_horizontalSlider_volumeLevel_sliderPressed();
+    void on_horizontalSlider_volumeLevel_sliderReleased();
+    void setVolumeIcon(int position);
+
+    void on_pushButton_fullscreen_clicked();
+    void showNormalized();
     void on_pushButton_shuffle_clicked();
     void on_pushButton_previousSong_clicked();
     void onDoubleClickTimerTimeout();
+    void on_pushButton_play_clicked();
+    void playSong();
     void on_pushButton_nextSong_clicked();
     void nextSong();
+    void playNewSong();
     void on_pushButton_repeat_clicked();
     void on_pushButton_volume_clicked();
-    void on_pushButton_fullscreen_clicked();
-    void showNormalized();
-    void setVolumeIcon(int position);
-    void on_horizontalSlider_volumeLevel_valueChanged(int value);
-    void handleHorizontalHeaderClicked(int logicalIndex);
-    void loadData();
+
+
+    void on_tableWidget_itemClicked(QTableWidgetItem* item);
+    void on_tableWidget_itemDoubleClicked(QTableWidgetItem* item);
     void tableWidget_setItemsFlags();
     void handleItemEntered(QTableWidgetItem* item);
-    void on_tableWidget_itemClicked(QTableWidgetItem *item);
-    void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
-    void playNewSong();
-    void on_horizontalSlider_songProgress_valueChanged(int value);
-    void on_horizontalSlider_volumeLevel_sliderPressed();
-    void on_horizontalSlider_volumeLevel_sliderReleased();
-    void on_horizontalSlider_songProgress_sliderPressed();
-    void on_horizontalSlider_songProgress_sliderReleased();
+    void setCellWidgetsInTableWidget();
+    void handleHorizontalHeaderClicked(int logicalIndex);
 
 private:
     Ui::MainWindow *ui;
@@ -81,9 +89,9 @@ private:
 
     Playlist playlist;
 
-    QTimer *timerLongName = nullptr;
-    QTimer *timerPassedPlaytime = nullptr;
-    QTimer *timerDoubleClick_previousSong = nullptr;
+    QTimer* timerLongName = nullptr;
+    QTimer* timerPassedPlaytime = nullptr;
+    QTimer* timerDoubleClick_previousSong = nullptr;
 
     QTableWidgetItem *item_selectedSong = nullptr;
 

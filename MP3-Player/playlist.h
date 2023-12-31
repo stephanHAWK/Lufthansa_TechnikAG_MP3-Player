@@ -21,6 +21,8 @@ public:
     // Abrufen der Playlist
     QVector<Song> getPlaylist() const;
     void loadSongInfo(const QString& filePath);
+    void addSong();
+    void deleteSong();
     void removeSong(int index);
 
 private:
