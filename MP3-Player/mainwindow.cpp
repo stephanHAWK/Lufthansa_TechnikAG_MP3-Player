@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     for (int i = 1; i < 11; i++)
     {
         QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\Lufthansa_MP3-Player\\MP3-Player\\mp3Tags\\song" + QString::number(i) + ".txt";
-        this->playlist.loadSongInfo(filePath);
+        playlist.loadSongInfo(filePath);
     }
     this->loadData();
     this->setCellWidgetsInTableWidget();
@@ -47,9 +47,18 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_addSong_clicked()
 {
     playlist.addSong();
-    ui->label_test->setText(this->playlist.getPlaylist().at(9).title);
     this->loadData();
+    this->setCellWidgetsInTableWidget();
 }
+
+void MainWindow::on_pushButton_removeSong_clicked()
+{
+    playlist.removeSong(item_selectedSong->row());
+    this->loadData();
+    this->setCellWidgetsInTableWidget();
+}
+
+
 //
 void MainWindow::loadData()
 {

@@ -62,8 +62,8 @@
      <rect>
       <x>10</x>
       <y>460</y>
-      <width>151</width>
-      <height>91</height>
+      <width>63</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
@@ -73,9 +73,9 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>11</y>
-      <width>600674</width>
+      <x>30</x>
+      <y>20</y>
+      <width>598831</width>
       <height>599</height>
      </rect>
     </property>
@@ -276,7 +276,62 @@ QTableWidget::item:hover
             <string notr="true">QPushButton
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/fullscreen.png); 
+	border-image: url(:/icons/icons/plus.png); 
+}
+
+QPushButton:hover
+{
+	background-color: transparent;
+	border-image: url(:/icons/icons/fullscreenHover.png); 
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_removeSong">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>41</width>
+             <height>41</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+	background-color: transparent;
+	border-image: url(:/icons/icons/minus.png); 
 }
 
 QPushButton:hover

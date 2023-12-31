@@ -30,5 +30,7 @@
         <file>icons/repeatOffHover.png</file>
         <file>icons/fullscreenHover.png</file>
         <file>icons/logo.png</file>
+        <file>icons/minus.png</file>
+        <file>icons/plus.png</file>
     </qresource>
 </RCC>

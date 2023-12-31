@@ -62,6 +62,8 @@ private slots:
     void setCellWidgetsInTableWidget();
     void handleHorizontalHeaderClicked(int logicalIndex);
 
+    void on_pushButton_removeSong_clicked();
+
 private:
     Ui::MainWindow *ui;
 
