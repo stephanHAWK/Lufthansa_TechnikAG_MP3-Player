@@ -32,5 +32,7 @@
         <file>icons/logo.png</file>
         <file>icons/minus.png</file>
         <file>icons/plus.png</file>
+        <file>icons/plusHover.png</file>
+        <file>icons/minusHover.png</file>
     </qresource>
 </RCC>

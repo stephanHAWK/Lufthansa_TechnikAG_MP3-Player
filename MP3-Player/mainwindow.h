@@ -30,7 +30,9 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_pushButton_addDirectory_clicked();
     void on_pushButton_addSong_clicked();
+    void on_pushButton_removeSong_clicked();
     void loadData();
 
     void on_horizontalSlider_songProgress_valueChanged(int value);
@@ -61,8 +63,6 @@ private slots:
     void handleItemEntered(QTableWidgetItem* item);
     void setCellWidgetsInTableWidget();
     void handleHorizontalHeaderClicked(int logicalIndex);
-
-    void on_pushButton_removeSong_clicked();
 
 private:
     Ui::MainWindow *ui;

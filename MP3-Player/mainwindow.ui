@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1334</width>
-    <height>919</height>
+    <width>1000</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -49,7 +49,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -73,18 +73,15 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>598831</width>
-      <height>599</height>
+      <x>20</x>
+      <y>50</y>
+      <width>766</width>
+      <height>600</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_mp3PlayerLayout">
      <property name="spacing">
       <number>0</number>
-     </property>
-     <property name="sizeConstraint">
-      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="topMargin">
       <number>0</number>
@@ -101,6 +98,9 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Minimum</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
@@ -112,7 +112,7 @@
          <item>
           <widget class="QTableWidget" name="tableWidget">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -120,7 +120,13 @@
            <property name="minimumSize">
             <size>
              <width>690</width>
-             <height>410</height>
+             <height>380</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
             </size>
            </property>
            <property name="mouseTracking">
@@ -171,6 +177,9 @@ QTableWidget::item:hover
     border: 1px solid black;
 }</string>
            </property>
+           <property name="sizeAdjustPolicy">
+            <enum>QAbstractScrollArea::AdjustIgnored</enum>
+           </property>
            <attribute name="horizontalHeaderCascadingSectionResizes">
             <bool>false</bool>
            </attribute>
@@ -213,6 +222,9 @@ QTableWidget::item:hover
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Maximum</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
@@ -226,20 +238,59 @@ QTableWidget::item:hover
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <spacer name="horizontalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <widget class="QPushButton" name="pushButton_addDirectory">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
+           <property name="minimumSize">
             <size>
-             <width>620</width>
+             <width>41</width>
+             <height>41</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+	background-color: transparent;
+	border-image: url(:/icons/icons/plus.png); 
+}
+
+QPushButton:hover
+{
+	background-color: transparent;
+	border-image: url(:/icons/icons/plusHover.png); 
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
              <height>20</height>
             </size>
            </property>
-          </spacer>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_addSong">
@@ -282,7 +333,7 @@ QTableWidget::item:hover
 QPushButton:hover
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/fullscreenHover.png); 
+	border-image: url(:/icons/icons/plusHover.png); 
 }</string>
            </property>
            <property name="text">
@@ -306,8 +357,8 @@ QPushButton:hover
            </property>
            <property name="minimumSize">
             <size>
-             <width>41</width>
-             <height>41</height>
+             <width>37</width>
+             <height>13</height>
             </size>
            </property>
            <property name="baseSize">
@@ -337,7 +388,7 @@ QPushButton:hover
 QPushButton:hover
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/fullscreenHover.png); 
+	border-image: url(:/icons/icons/minusHover.png);
 }</string>
            </property>
            <property name="text">
@@ -359,6 +410,9 @@ QPushButton:hover
       <spacer name="verticalSpacer_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -397,6 +451,12 @@ QPushButton:hover
        </item>
        <item>
         <widget class="QSlider" name="horizontalSlider_songProgress">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::LeftToRight</enum>
          </property>
@@ -932,7 +992,7 @@ QPushButton:hover
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1334</width>
+     <width>1000</width>
      <height>25</height>
     </rect>
    </property>

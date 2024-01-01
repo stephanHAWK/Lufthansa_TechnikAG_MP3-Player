@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Playtime
     ui->tableWidget->setColumnWidth(3, 80);
 
-
     // load the data for the tableWidget
+    /*
     for (int i = 1; i < 11; i++)
     {
         QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\Lufthansa_MP3-Player\\MP3-Player\\mp3Tags\\song" + QString::number(i) + ".txt";
@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     this->loadData();
     this->setCellWidgetsInTableWidget();
+    */
 }
 
 MainWindow::~MainWindow()
@@ -43,6 +44,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_pushButton_addDirectory_clicked()
+{
+    playlist.addDirectory();
+    this->loadData();
+    this->setCellWidgetsInTableWidget();
+}
 
 void MainWindow::on_pushButton_addSong_clicked()
 {
@@ -53,9 +60,30 @@ void MainWindow::on_pushButton_addSong_clicked()
 
 void MainWindow::on_pushButton_removeSong_clicked()
 {
-    playlist.removeSong(item_selectedSong->row());
-    this->loadData();
-    this->setCellWidgetsInTableWidget();
+    if (item_selectedSong != nullptr)
+    {
+        playlist.removeSong(item_selectedSong->row());
+        this->loadData();
+        this->setCellWidgetsInTableWidget();
+
+        item_selectedSong = nullptr;
+        // Pausiere den Timer
+        if (timerPassedPlaytime->isActive())
+        {
+            timerPassedPlaytime->stop();
+        }
+
+        ui->pushButton_play->setStyleSheet("QPushButton {"
+                                           "border-image: url(:/icons/icons/play.png);"
+                                           "background-color: transparent;"
+                                           "}"
+                                           "QPushButton:hover {"
+                                           "border-image: url(:/icons/icons/playHover.png);"
+                                           "}"
+                                           );
+
+        songPaused = false;
+    }
 }
 
 
@@ -578,7 +606,7 @@ void MainWindow::playSong()
     }
     */
 
-    // pause the song
+    // play the song
     if (songPaused == false)
     {
         QTime time = QTime::fromString(playtime, "hh:mm:ss");
@@ -634,10 +662,10 @@ void MainWindow::playSong()
 
         songPaused = true;
     }
-    // play the song
+    // pause the song
     else
     {
-        // Pausiere den Timer
+        // pause the timer for playing music
         if (timerPassedPlaytime->isActive())
         {
             timerPassedPlaytime->stop();
