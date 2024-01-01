@@ -6,8 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //QFlags flags = Qt::CustomizeWindowHint; //Qt::FramelessWindowHint;
-    //this->setWindowFlags(flags);
+
+    ui->pushButton_addDirectory->setToolTip("add all songs from directory");
+    ui->pushButton_addSong->setToolTip("add songs");
+    ui->pushButton_removeSong->setToolTip("remove selected song");
 
     ui->verticalLayout_mp3PlayerLayout->addStretch();
     // Set the central widget's layout
