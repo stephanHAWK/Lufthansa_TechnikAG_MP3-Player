@@ -31,7 +31,7 @@ public:
 
 private slots:
     void on_pushButton_addDirectory_clicked();
-    void on_pushButton_savePlaylist_clicked();
+    void on_pushButton_songToQueue_clicked();
     void on_pushButton_addSong_clicked();
     void on_pushButton_removeSong_clicked();
     void loadData();

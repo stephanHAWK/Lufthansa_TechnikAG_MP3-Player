@@ -36,7 +36,8 @@
         <file>icons/directoryHover.png</file>
         <file>icons/minusHover.png</file>
         <file>icons/plusHover.png</file>
-        <file>icons/savePlaylist.png</file>
-        <file>icons/savePlaylistHover.png</file>
+        <file>icons/airplane.png</file>
+        <file>icons/songQueue.png</file>
+        <file>icons/songQueueHover.png</file>
     </qresource>
 </RCC>
