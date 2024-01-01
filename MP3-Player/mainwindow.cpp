@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     ui->pushButton_addDirectory->setToolTip("add all songs from directory");
+    ui->pushButton_savePlaylist->setToolTip("save playlist");
     ui->pushButton_addSong->setToolTip("add songs");
     ui->pushButton_removeSong->setToolTip("remove selected song");
 
@@ -52,6 +53,17 @@ void MainWindow::on_pushButton_addDirectory_clicked()
     this->loadData();
     this->setCellWidgetsInTableWidget();
 }
+
+
+void MainWindow::on_pushButton_savePlaylist_clicked()
+{
+    if (item_selectedSong != nullptr)
+    {
+        songQueue.append(item_selectedSong->text());
+        queueOn = true;
+    }
+}
+
 
 void MainWindow::on_pushButton_addSong_clicked()
 {
@@ -696,21 +708,47 @@ void MainWindow::nextSong()
     //if (shuffleOn == false)
     //{
     // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
-    if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
+    if (queueOn == false)
     {
-        // Auf das Element in der nächsten Zeile zugreifen
-        item_selectedSong = ui->tableWidget->item(item_selectedSong->row() + 1, 0);
+        if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
+        {
+            // Auf das Element in der nächsten Zeile zugreifen
+            item_selectedSong = ui->tableWidget->item(item_selectedSong->row() + 1, 0);
 
-        this->playNewSong();
+            this->playNewSong();
+        }
+        else
+        {
+            // when the end is reached it begins again at the start
+            if (repeatOn)
+            {
+                item_selectedSong = ui->tableWidget->item(0, 0);
+
+                this->playNewSong();
+            }
+        }
     }
     else
     {
-        // when the end is reached it begins again at the start
-        if (repeatOn)
+        if (!songQueue.isEmpty())
         {
-            item_selectedSong = ui->tableWidget->item(0, 0);
+            for (int row = 0; row < ui->tableWidget->rowCount(); row++)
+            {
+                if (ui->tableWidget->item(row, 0)->text() == songQueue.first())
+                {
+                    // Auf das Element in der nächsten Zeile zugreifen
+                    item_selectedSong = ui->tableWidget->item(row, 0);
 
-            this->playNewSong();
+                    songQueue.removeFirst();
+
+                    this->playNewSong();
+                    break;
+                }
+            }
+        }
+        else
+        {
+            queueOn = false;
         }
     }
     //}
@@ -904,7 +942,7 @@ void MainWindow::tableWidget_setItemsFlags()
 // text-moving-animation when the mouse enters a item from tableWidget and the text is too long
 void MainWindow::handleItemEntered(QTableWidgetItem* item)
 {
-    ui->label_test->setText(item->text());
+    //ui->label_test->setText(item->text());
 
     // stop the existing timer
     if (timerLongName && timerLongName->isActive())
@@ -943,6 +981,23 @@ void MainWindow::handleItemEntered(QTableWidgetItem* item)
                     });
             timerLongName->start(200);
         }
+
+        /*
+        this->setCellWidgetsInTableWidget();
+        // change style form the selected item
+        for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+        {
+            QWidget* customWidget = new QWidget;
+            customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+            QLabel* label = new QLabel(ui->tableWidget->item(item->row(), column)->text());
+            label->setAlignment(Qt::AlignLeft);
+            label->setStyleSheet("color: black;");
+            QVBoxLayout* layout = new QVBoxLayout(customWidget);
+            layout->addWidget(label);
+            layout->setContentsMargins(2, 10, 0, 0);
+            ui->tableWidget->setCellWidget(item->row(), column, customWidget);
+        }
+        */
     }
 }
 
@@ -1088,4 +1143,5 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
     shuffleOn = true;
     this->on_pushButton_shuffle_clicked();
 }
+
 

@@ -165,13 +165,18 @@ QHeaderView::section
 QTableWidget::item
 {
 	color: black;
-	/*background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af);*/
 	background-color: transparent;
 	border-bottom: 1px solid black; 
 	border-top: 1px solid black;
 }
 
 QTableWidget::item:hover
+{
+	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1#99a7bf);
+    border: 1px solid black;
+}
+
+QTableWidget::item:selected
 {
 	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1#99a7bf);
     border: 1px solid black;
@@ -266,8 +271,8 @@ QTableWidget::item:hover
            </property>
            <property name="minimumSize">
             <size>
-             <width>37</width>
-             <height>13</height>
+             <width>41</width>
+             <height>41</height>
             </size>
            </property>
            <property name="baseSize">
@@ -296,6 +301,7 @@ QTableWidget::item:hover
 
 QPushButton:hover
 {
+	border-image: url(:/icons/icons/minusHover.png); 
 }</string>
            </property>
            <property name="text">
@@ -358,6 +364,7 @@ QPushButton:hover
 
 QPushButton:hover
 {
+	border-image: url(:/icons/icons/plusHover.png); 
 }</string>
            </property>
            <property name="text">
@@ -372,7 +379,7 @@ QPushButton:hover
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_addDirectory">
+          <widget class="QPushButton" name="pushButton_savePlaylist">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -381,8 +388,8 @@ QPushButton:hover
            </property>
            <property name="minimumSize">
             <size>
-             <width>41</width>
-             <height>41</height>
+             <width>51</width>
+             <height>51</height>
             </size>
            </property>
            <property name="baseSize">
@@ -415,11 +422,75 @@ QPushButton:hover
             <string notr="true">QPushButton
 {
 	background-color: transparent;
-	border-image: url(:/icons/icons/plus.png); 
+	border-image: url(:/icons/icons/savePlaylist.png); 
 }
 
 QPushButton:hover
 {
+	border-image: url(:/icons/icons/savePlaylistHover.png); 
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_addDirectory">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>51</width>
+             <height>51</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="mouseTracking">
+            <bool>true</bool>
+           </property>
+           <property name="toolTip">
+            <string/>
+           </property>
+           <property name="toolTipDuration">
+            <number>-1</number>
+           </property>
+           <property name="whatsThis">
+            <string/>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton
+{
+	background-color: transparent;
+	border-image: url(:/icons/icons/directory.png); 
+}
+
+QPushButton:hover
+{
+	border-image: url(:/icons/icons/directoryHover.png); 
 }</string>
            </property>
            <property name="text">
