@@ -8,10 +8,7 @@
 
 Playlist::Playlist() {}
 
-Playlist::~Playlist()
-{
-    //this->songList.clear();
-}
+Playlist::~Playlist() {}
 
 void Playlist::loadSongInfo(const QString& filePath)
 {

@@ -31,7 +31,6 @@ public:
 
 private slots:
     void on_pushButton_addDirectory_clicked();
-    void on_pushButton_songToQueue_clicked();
     void on_pushButton_addSong_clicked();
     void on_pushButton_removeSong_clicked();
     void loadData();
@@ -58,12 +57,14 @@ private slots:
     void on_pushButton_volume_clicked();
 
 
-    void on_tableWidget_itemClicked(QTableWidgetItem* item);
-    void on_tableWidget_itemDoubleClicked(QTableWidgetItem* item);
+    void on_tableWidget_itemClicked(QTableWidgetItem *item);
+    void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void tableWidget_setItemsFlags();
-    void handleItemEntered(QTableWidgetItem* item);
+    void handleItemEntered(QTableWidgetItem *item);
     void setCellWidgetsInTableWidget();
     void handleHorizontalHeaderClicked(int logicalIndex);
+
+    void on_pushButton_addSongToQueue_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -83,24 +84,19 @@ private:
     bool authorSortedDescending;
     bool genreSortedDescending;
     bool playtimeSortedDescending;
-    //bool shuffleOn_beginSongList;
-    //bool shuffleOn_previousSong;
 
     int windowHeight;
     int windowWidth;
     int volumePosition;
-    //int shuffleOn_songIndex = 0;
 
     Playlist playlist;
 
-    QTimer* timerLongName = nullptr;
-    QTimer* timerPassedPlaytime = nullptr;
-    QTimer* timerDoubleClick_previousSong = nullptr;
+    QTimer *timerLongName = nullptr;
+    QTimer *timerPassedPlaytime = nullptr;
+    QTimer *timerDoubleClick_previousSong = nullptr;
 
-    QTableWidgetItem* item_selectedSong = nullptr;
+    QTableWidgetItem *item_selectedSong = nullptr;
 
     QStringList songQueue;
-
-    //QVector<QString> shuffleSongList;
 };
 #endif // MAINWINDOW_H

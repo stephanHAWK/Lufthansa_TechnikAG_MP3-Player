@@ -39,5 +39,6 @@
         <file>icons/airplane.png</file>
         <file>icons/songQueue.png</file>
         <file>icons/songQueueHover.png</file>
+        <file>icons/airplaneHover.png</file>
     </qresource>
 </RCC>

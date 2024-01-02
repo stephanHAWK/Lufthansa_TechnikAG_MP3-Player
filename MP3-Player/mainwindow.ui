@@ -520,7 +520,7 @@ QPushButton:hover
          <property name="sizeHint" stdset="0">
           <size>
            <width>18</width>
-           <height>10</height>
+           <height>518</height>
           </size>
          </property>
         </spacer>
@@ -648,7 +648,12 @@ QSlider::handle:horizontal
     margin: -2px 0;
 }
 
-/* color on the right side from handle */
+QSlider::handle:horizontal:hover
+{
+	background-image: url(:/icons/icons/airplaneHover.png);
+}
+
+/* right side from handle */
 QSlider::add-page:horizontal
  {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);  
@@ -656,7 +661,7 @@ QSlider::add-page:horizontal
 	border-radius: 5px;
 }
 
- /* color on the left side from handle */
+ /* left side from handle */
 QSlider::sub-page:horizontal
  {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
@@ -767,7 +772,12 @@ QSlider::handle:horizontal
     margin: -2px 0;
 }
 
-/* color on the right side from handle */
+QSlider::handle:horizontal:hover
+{
+	background-image: url(:/icons/icons/airplaneHover.png);
+}
+
+/* right side from handle */
 QSlider::add-page:horizontal
  {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);  
@@ -775,7 +785,7 @@ QSlider::add-page:horizontal
 	border-radius: 5px;
 }
 
- /* color on the left side from handle */
+ /*  left side from handle */
 QSlider::sub-page:horizontal
  {
     background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);
@@ -1186,22 +1196,6 @@ QPushButton:hover
         </layout>
        </item>
       </layout>
-     </item>
-     <item>
-      <spacer name="verticalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Expanding</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>100</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </widget>

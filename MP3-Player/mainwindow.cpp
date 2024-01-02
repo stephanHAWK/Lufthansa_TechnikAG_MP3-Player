@@ -29,17 +29,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setColumnWidth(2, 150);
     // Playtime
     ui->tableWidget->setColumnWidth(3, 80);
-
-    // load the data for the tableWidget
-    /*
-    for (int i = 1; i < 11; i++)
-    {
-        QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\Lufthansa_MP3-Player\\MP3-Player\\album\\song" + QString::number(i) + ".txt";
-        playlist.loadSongInfo(filePath);
-    }
-    this->loadData();
-    this->setCellWidgetsInTableWidget();
-    */
 }
 
 MainWindow::~MainWindow()
@@ -54,8 +43,7 @@ void MainWindow::on_pushButton_addDirectory_clicked()
     this->setCellWidgetsInTableWidget();
 }
 
-
-void MainWindow::on_pushButton_songToQueue_clicked()
+void MainWindow::on_pushButton_addSongToQueue_clicked()
 {
     if (item_selectedSong != nullptr)
     {
@@ -63,7 +51,6 @@ void MainWindow::on_pushButton_songToQueue_clicked()
         queueOn = true;
     }
 }
-
 
 void MainWindow::on_pushButton_addSong_clicked()
 {
@@ -104,14 +91,6 @@ void MainWindow::on_pushButton_removeSong_clicked()
 //
 void MainWindow::loadData()
 {
-    /*
-    for (int i = 1; i < 11; i++)
-    {
-        QString filePath = "C:\\Users\\Stephan Alves Dias\\Desktop\\MP3-Player\\Lufthansa_MP3-Player\\MP3-Player\\mp3Tags\\song" + QString::number(i) + ".txt";
-        this->playlist.loadSongInfo(filePath);
-    }
-    */
-
     ui->tableWidget->setRowCount(this->playlist.getPlaylist().size());
 
     for (int row = 0; row < this->playlist.getPlaylist().size(); row++)
@@ -140,37 +119,49 @@ void MainWindow::on_horizontalSlider_songProgress_valueChanged(int value)
 
 void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
 {
-    ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal"
-                                                     "{"
-                                                     "border: 1px solid black;"
-                                                     "background: white;"
-                                                     "height: 20px;"
-                                                     "border-radius: 5px;"
-                                                     "}"
+    if (item_selectedSong != nullptr)
+    {
+        ui->horizontalSlider_songProgress->setStyleSheet("QSlider::groove:horizontal"
+                                                         "{"
+                                                         "border: 1px solid black;"
+                                                         "background: white;"
+                                                         "height: 20px;"
+                                                         "border-radius: 5px;"
+                                                         "}"
 
-                                                     "QSlider::handle:horizontal"
-                                                     "{"
-                                                     /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
-                                                     "background: transparent;"
-                                                     "background-image: url(:/icons/icons/airplane.png);"
-                                                     "border: none;"
-                                                     "background-repeat: no-repeat;"
-                                                     "width: 40px;"
-                                                     "height: 40px;"
-                                                     "margin: -2px 0;"
-                                                     "}"
+                                                         "QSlider::handle:horizontal"
+                                                         "{"
+                                                         /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
+                                                         "background: transparent;"
+                                                         "background-image: url(:/icons/icons/airplaneHover.png);"
+                                                         "border: none;"
+                                                         "background-repeat: no-repeat;"
+                                                         "width: 40px;"
+                                                         "height: 40px;"
+                                                         "margin: -2px 0;"
+                                                         "}"
 
-                                                     "QSlider::add-page:horizontal {"
-                                                     "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
-                                                     "border: none;"
-                                                     "border-radius: 5px;"
-                                                     "}"
-                                                     "QSlider::sub-page:horizontal {"
-                                                     "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #f9ba00);"
-                                                     "border: none;"
-                                                     "border-radius: 5px;"
-                                                     "}"
-                                                     );
+                                                         "QSlider::handle:horizontal:hover"
+                                                         "{"
+                                                         "    background-image: url(:/icons/icons/airplaneHover.png);"
+                                                         "}"
+
+                                                         "QSlider::add-page:horizontal {"
+                                                         "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
+                                                         "border: none;"
+                                                         "border-radius: 5px;"
+                                                         "}"
+                                                         "QSlider::sub-page:horizontal {"
+                                                         "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #f9ba00);"
+                                                         "border: none;"
+                                                         "border-radius: 5px;"
+                                                         "}"
+                                                         );
+    }
+    else
+    {
+        ui->horizontalSlider_songProgress->setDisabled(true);
+    }
 }
 
 void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
@@ -185,7 +176,6 @@ void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
 
                                                      "QSlider::handle:horizontal"
                                                      "{"
-                                                     /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
                                                      "background: transparent;"
                                                      "background-image: url(:/icons/icons/airplane.png);"
                                                      "border: none;"
@@ -195,11 +185,17 @@ void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
                                                      "margin: -2px 0;"
                                                      "}"
 
+                                                     "QSlider::handle:horizontal:hover"
+                                                     "{"
+                                                     "    background-image: url(:/icons/icons/airplaneHover.png);"
+                                                     "}"
+
                                                      "QSlider::add-page:horizontal {"
                                                      "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
                                                      "border: none;"
                                                      "border-radius: 5px;"
                                                      "}"
+
                                                      "QSlider::sub-page:horizontal {"
                                                      "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
                                                      "border: none;"
@@ -225,14 +221,18 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
 
                                                     "QSlider::handle:horizontal"
                                                     "{"
-                                                    /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
                                                     "background: transparent;"
-                                                    "background-image: url(:/icons/icons/airplane.png);"
+                                                    "background-image: url(:/icons/icons/airplaneHover.png);"
                                                     "border: none;"
                                                     "background-repeat: no-repeat;"
                                                     "width: 40px;"
                                                     "height: 40px;"
                                                     "margin: -2px 0;"
+                                                    "}"
+
+                                                    "QSlider::handle:horizontal:hover"
+                                                    "{"
+                                                    "    background-image: url(:/icons/icons/airplaneHover.png);"
                                                     "}"
 
                                                     "QSlider::add-page:horizontal {"
@@ -261,7 +261,6 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
 
         "QSlider::handle:horizontal"
         "{"
-            /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
             "background: transparent;"
             "background-image: url(:/icons/icons/airplane.png);"
             "border: none;"
@@ -271,7 +270,12 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
             "margin: -2px 0;"
         "}"
 
-        /* "color on the right side from handle" */
+        "QSlider::handle:horizontal:hover"
+        "{"
+        "    background-image: url(:/icons/icons/airplaneHover.png);"
+        "}"
+
+        /* "right side from handle" */
         "QSlider::add-page:horizontal"
         "{"
             "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #ccd3df, stop:1 #b3bdcf);"
@@ -279,7 +283,7 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
             "border-radius: 5px;"
         "}"
 
-        /* "color on the left side from handle" */
+        /* "left side from handle" */
         "QSlider::sub-page:horizontal"
         "{"
             "background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);"
@@ -512,8 +516,6 @@ void MainWindow::on_pushButton_shuffle_clicked()
 
 void MainWindow::on_pushButton_previousSong_clicked()
 {
-    //if (shuffleOn == false)
-    //{
     // doubleClick
     if (timerDoubleClick_previousSong != nullptr)
     {
@@ -537,63 +539,6 @@ void MainWindow::on_pushButton_previousSong_clicked()
     {
         ui->horizontalSlider_songProgress->setValue(0);
     }
-    //}
-    /*
-    // shuffleOn == true
-    else
-    {
-        // doubleClick
-        if (timerDoubleClick_previousSong != nullptr)
-        {
-            shuffleOn_previousSong = true;
-
-            if (shuffleOn_beginSongList == false)
-            {
-                shuffleOn_songIndex = shuffleSongList.size() - 1;
-                shuffleOn_beginSongList = true;
-            }
-            else
-            {
-                shuffleOn_songIndex--;
-                if (shuffleOn_songIndex < 0)
-                {
-                    shuffleOn_songIndex = 0;
-                }
-            }
-
-            // Überprüfen, ob lastIndex gültig ist
-            if (shuffleOn_songIndex >= 0)
-            {
-                // Das letzte Element in shuffleSongList
-                QString lastSelectedItemText = shuffleSongList[shuffleOn_songIndex];
-
-                // Finden Sie das entsprechende QTableWidgetItem im tableWidget
-                QTableWidgetItem* lastSelectedItem = nullptr;
-                for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
-                {
-                    if (ui->tableWidget->item(row, 0)->text() == lastSelectedItemText)
-                    {
-                        lastSelectedItem = ui->tableWidget->item(row, 0);
-                        break;
-                    }
-                }
-
-                item_selectedSong = lastSelectedItem;
-                this->playNewSong();
-            }
-            else
-            {
-                // shuffleSongList ist leer
-                ui->horizontalSlider_songProgress->setValue(0);
-            }
-        }
-        // singleClick
-        else
-        {
-            ui->horizontalSlider_songProgress->setValue(0);
-        }
-    }
-    */
 
     timerDoubleClick_previousSong = new QTimer(ui->pushButton_previousSong);
     timerDoubleClick_previousSong->setSingleShot(true);  // Der Timer wird nur einmal ausgelöst
@@ -625,6 +570,7 @@ void MainWindow::on_pushButton_play_clicked()
 
 void MainWindow::playSong()
 {
+    ui->horizontalSlider_songProgress->setDisabled(false);
     ui->label_song->setText(item_selectedSong->text());
     this->setCellWidgetsInTableWidget();
 
@@ -645,13 +591,6 @@ void MainWindow::playSong()
         layout->setContentsMargins(2, 10, 0, 0);
         ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
     }
-
-    /*
-    if (shuffleOn_previousSong == false)
-    {
-        shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
-    }
-    */
 
     // play the song
     if (songPaused == false)
@@ -741,8 +680,6 @@ void MainWindow::on_pushButton_nextSong_clicked()
 
 void MainWindow::nextSong()
 {
-    //if (shuffleOn == false)
-    //{
     // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
     if (queueOn == false)
     {
@@ -787,61 +724,6 @@ void MainWindow::nextSong()
             queueOn = false;
         }
     }
-    //}
-    /*
-    // shuffle is on
-    else
-    {
-        if (shuffleOn_previousSong == true)
-        {
-            // Das letzte Element in shuffleSongList
-            QString lastSelectedItemText = shuffleSongList[shuffleOn_songIndex];
-
-            for (int row = 0; row < ui->tableWidget->rowCount() - 1; row++)
-            {
-                if (ui->tableWidget->item(row, 0)->text() == lastSelectedItemText)
-                {
-                    item_selectedSong = ui->tableWidget->item(row, 0);
-                    break;
-                }
-            }
-
-            this->playNewSong();
-
-            shuffleOn_songIndex++;
-            if (shuffleOn_songIndex > shuffleSongList.size())
-            {
-                shuffleOn_previousSong = false;
-            }
-        }
-        else
-        {
-            if (shuffleSongList.length() != ui->tableWidget->rowCount() - 1)
-            {
-                int randomNumber;
-                for (;;)
-                {
-                    randomNumber = QRandomGenerator::global()->bounded(ui->tableWidget->rowCount());
-
-                    if (randomNumber != item_selectedSong->row() && !shuffleSongList.contains(ui->tableWidget->item(randomNumber, 0)->text()))
-                    {
-                        break;
-                    }
-                }
-
-                // Auf das Element in der nächsten Zeile zugreifen
-                item_selectedSong = ui->tableWidget->item(randomNumber, 0);
-
-                this->playNewSong();
-            }
-            else
-            {
-                // nextButton deaktivieren
-                //ui->label_test->setText("nice");
-            }
-        }
-    }
-    */
 }
 
 void MainWindow::playNewSong()
@@ -1017,23 +899,6 @@ void MainWindow::handleItemEntered(QTableWidgetItem* item)
                     });
             timerLongName->start(200);
         }
-
-        /*
-        this->setCellWidgetsInTableWidget();
-        // change style form the selected item
-        for (int column = 0; column < ui->tableWidget->columnCount(); column++)
-        {
-            QWidget* customWidget = new QWidget;
-            customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
-            QLabel* label = new QLabel(ui->tableWidget->item(item->row(), column)->text());
-            label->setAlignment(Qt::AlignLeft);
-            label->setStyleSheet("color: black;");
-            QVBoxLayout* layout = new QVBoxLayout(customWidget);
-            layout->addWidget(label);
-            layout->setContentsMargins(2, 10, 0, 0);
-            ui->tableWidget->setCellWidget(item->row(), column, customWidget);
-        }
-        */
     }
 }
 
@@ -1048,20 +913,12 @@ void MainWindow::setCellWidgetsInTableWidget()
             if (row % 2 != 0)
             {
                 customWidget->setStyleSheet("background-color: transparent");
-                //customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #4d658f, stop:1 #8091af); color: white;");
             }
             // even numbers
             else
             {
                 customWidget->setStyleSheet("background-color: transparent");
-                //customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1 #b3bdcf); color: white;");
             }
-            //QLabel *label = new QLabel(ui->tableWidget->item(row, column)->text());
-            //label->setAlignment(Qt::AlignLeft);
-            //label->setStyleSheet("color: black;");
-            //QVBoxLayout *layout = new QVBoxLayout(customWidget);
-            //layout->addWidget(label);
-            //layout->setContentsMargins(5, 10, 0, 0);
             ui->tableWidget->setCellWidget(row, column, customWidget);
         }
     }
@@ -1179,5 +1036,3 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
     shuffleOn = true;
     this->on_pushButton_shuffle_clicked();
 }
-
-
