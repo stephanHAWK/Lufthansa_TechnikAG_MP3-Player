@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player
+# Install script for directory: C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

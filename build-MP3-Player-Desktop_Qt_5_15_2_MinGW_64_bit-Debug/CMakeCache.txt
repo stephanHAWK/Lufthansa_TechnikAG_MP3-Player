@@ -301,7 +301,7 @@ MP3-Player_BINARY_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/buil
 MP3-Player_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
-MP3-Player_SOURCE_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player
+MP3-Player_SOURCE_DIR:STATIC=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player
 
 //Skip Qt Creator's package manager auto-setup
 QT_CREATOR_SKIP_PACKAGE_MANAGER_SETUP:BOOL=OFF
@@ -391,7 +391,7 @@ CMAKE_GENERATOR_PLATFORM:INTERNAL=
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player
+CMAKE_HOME_DIRECTORY:INTERNAL=C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player
 //ADVANCED property for variable: CMAKE_INSTALL_BINDIR
 CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_DATADIR
