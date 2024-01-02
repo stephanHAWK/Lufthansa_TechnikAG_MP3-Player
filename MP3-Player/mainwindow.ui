@@ -167,6 +167,11 @@ QTableWidget::item:selected
 {
 	background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8091af, stop:1#99a7bf);
     border: 1px solid black;
+}
+
+QTableWidget::cell
+{
+	background-color: transparent;
 }</string>
            </property>
            <property name="sizeAdjustPolicy">

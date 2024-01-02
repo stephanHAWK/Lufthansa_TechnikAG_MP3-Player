@@ -7,20 +7,21 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // add text to the buttons when the mouse is over the buttons
     ui->pushButton_addDirectory->setToolTip("add all songs from directory");
     ui->pushButton_addSongToQueue->setToolTip("add a song to the queue");
     ui->pushButton_addSong->setToolTip("add songs");
     ui->pushButton_removeSong->setToolTip("remove selected song");
 
-    ui->verticalLayout_mp3PlayerLayout->addStretch();
-    // Set the central widget's layout
+    // set the central widget layout -> verticalLayout_mp3PlayerLayout expands with the size from centralwidget
     ui->centralwidget->setLayout(ui->verticalLayout_mp3PlayerLayout);
 
-    // Connect the sectionClicked signal to the handleHorizontalHeaderClicked slot.
+    // connect sectionClicked signal to the handleHorizontalHeaderClicked
     connect(ui->tableWidget->horizontalHeader(), &QHeaderView::sectionClicked, this, &MainWindow::handleHorizontalHeaderClicked);
-    // Connect the itemEntered and itemExited signals to your custom slots.
+    // connect itemEntered signal to handleItemEntered
     connect(ui->tableWidget, &QTableWidget::itemEntered, this, &MainWindow::handleItemEntered);
 
+    // set column width from the tableWidget
     // Title
     ui->tableWidget->setColumnWidth(0, 200);
     // Author
@@ -38,16 +39,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_addDirectory_clicked()
 {
+    // add the songs from a directory to the playlist
     playlist.addDirectory();
-    this->loadData();
-    this->setCellWidgetsInTableWidget();
+
+    // filling tableWidget with data
+    loadData();
 }
 
 void MainWindow::on_pushButton_addSongToQueue_clicked()
 {
-    if (item_selectedSong != nullptr)
+    if (item_clickedSong != nullptr)
     {
-        songQueue.append(item_selectedSong->text());
+        songQueue.append(item_clickedSong->text());
         queueOn = true;
     }
 }
@@ -55,8 +58,7 @@ void MainWindow::on_pushButton_addSongToQueue_clicked()
 void MainWindow::on_pushButton_addSong_clicked()
 {
     playlist.addSong();
-    this->loadData();
-    this->setCellWidgetsInTableWidget();
+    loadData();
 }
 
 void MainWindow::on_pushButton_removeSong_clicked()
@@ -64,11 +66,11 @@ void MainWindow::on_pushButton_removeSong_clicked()
     if (item_selectedSong != nullptr)
     {
         playlist.removeSong(item_selectedSong->row());
-        this->loadData();
-        this->setCellWidgetsInTableWidget();
+        loadData();
 
         item_selectedSong = nullptr;
-        // Pausiere den Timer
+
+        // pause the timer for playing music
         if (timerPassedPlaytime->isActive())
         {
             timerPassedPlaytime->stop();
@@ -88,31 +90,34 @@ void MainWindow::on_pushButton_removeSong_clicked()
 }
 
 
-//
+// filling tableWidget with data
 void MainWindow::loadData()
 {
-    ui->tableWidget->setRowCount(this->playlist.getPlaylist().size());
+    // set the number of rows to the number of songs in the playlist
+    ui->tableWidget->setRowCount(playlist.getPlaylist().size());
 
-    for (int row = 0; row < this->playlist.getPlaylist().size(); row++)
+    // filling the items with the information of the different songs
+    for (int row = 0; row < playlist.getPlaylist().size(); row++)
     {
-        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(this->playlist.getPlaylist().at(row).title));
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(this->playlist.getPlaylist().at(row).author));
-        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(this->playlist.getPlaylist().at(row).genre));
-        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(this->playlist.getPlaylist().at(row).playtime));
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(playlist.getPlaylist().at(row).title));
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(playlist.getPlaylist().at(row).author));
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(playlist.getPlaylist().at(row).genre));
+        ui->tableWidget->setItem(row, 3, new QTableWidgetItem(playlist.getPlaylist().at(row).playtime));
     }
 
-    this->tableWidget_setItemsFlags();
+    // set the flags for the items (not editable)
+    tableWidget_setItemsFlags();
 }
 
 
 void MainWindow::on_horizontalSlider_songProgress_valueChanged(int value)
 {
-    // Hier können Sie die Berechnung für Stunden, Minuten und Sekunden durchführen
+    // calculate the time in hours, minutes and seconds
     int hours = value / 3600;
     int minutes = (value % 3600) / 60;
     int seconds = value % 60;
 
-    // Anzeige der berechneten Zeit im anderen Label
+    // set the calculated time in the right format for label_timePassed (hh:mm:ss)
     ui->label_timePassed->setText(QString("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')));
     ui->horizontalSlider_songProgress->setValue(value);
 }
@@ -131,7 +136,6 @@ void MainWindow::on_horizontalSlider_songProgress_sliderPressed()
 
                                                          "QSlider::handle:horizontal"
                                                          "{"
-                                                         /*"background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 white, stop:1 #00235f);",*/
                                                          "background: transparent;"
                                                          "background-image: url(:/icons/icons/airplaneHover.png);"
                                                          "border: none;"
@@ -206,7 +210,7 @@ void MainWindow::on_horizontalSlider_songProgress_sliderReleased()
 
 void MainWindow::on_horizontalSlider_volumeLevel_valueChanged(int value)
 {
-    this->setVolumeIcon(value);
+    setVolumeIcon(value);
 }
 
 void MainWindow::on_horizontalSlider_volumeLevel_sliderPressed()
@@ -291,7 +295,7 @@ void MainWindow::on_horizontalSlider_volumeLevel_sliderReleased()
             "border-radius: 5px;"
         "}"
 
-                                                    );
+    );
 }
 
 void MainWindow::setVolumeIcon(int position)
@@ -339,24 +343,25 @@ void MainWindow::on_pushButton_fullscreen_clicked()
     if (fullscreen == false)
     {
         // save the current size of the window
-        windowWidth = this->height();
-        windowHeight = this->height();
+        windowWidth = height();
+        windowHeight = height();
 
         showFullScreen();
 
-        // add to the menubar the actions
-        // close
-        QAction* exitAction = new QAction(QIcon(":/icons/icons/closeWindow.png"), tr("close"), this);
+        // action for the menubar
+        // close action
+        QAction *exitAction = new QAction(QIcon(":/icons/icons/closeWindow.png"), tr("close"), this);
         connect(exitAction, &QAction::triggered, qApp, &QApplication::quit);
 
-        // restore
-        QAction* restoreAction = new QAction(QIcon(":/icons/icons/restoreWindow.png"), tr("restore"), this);
+        // restore action
+        QAction *restoreAction = new QAction(QIcon(":/icons/icons/restoreWindow.png"), tr("restore"), this);
         connect(restoreAction, &QAction::triggered, this, &MainWindow::showNormalized);
 
-        // minimize
-        QAction* minimizeAction = new QAction(QIcon(":/icons/icons/minimizeWindow.png"), tr("minimize"), this);
+        // minimize action
+        QAction *minimizeAction = new QAction(QIcon(":/icons/icons/minimizeWindow.png"), tr("minimize"), this);
         connect(minimizeAction, &QAction::triggered, this, &QMainWindow::showMinimized);
 
+        // adding actions to the menubar
         ui->menubar->addAction(exitAction);
         ui->menubar->addAction(restoreAction);
         ui->menubar->addAction(minimizeAction);
@@ -366,7 +371,7 @@ void MainWindow::on_pushButton_fullscreen_clicked()
     else
     {
         // set window back to the original size
-        this->showNormalized();
+        showNormalized();
         fullscreen = false;
     }
 }
@@ -377,8 +382,8 @@ void MainWindow::showNormalized()
 
     showNormal();
 
-    this->setMinimumWidth(windowWidth);
-    this->setMinimumHeight(windowHeight);
+    setMinimumWidth(windowWidth);
+    setMinimumHeight(windowHeight);
 
     // delete the menubar
     ui->menubar->clear();
@@ -401,41 +406,36 @@ void MainWindow::on_pushButton_shuffle_clicked()
                                                   "}"
                                                   );
 
-            // Store indices in a list to shuffle
+            // store indices in a list to shuffle
             QList<int> rowIndices;
-            for (int row = 0; row < this->playlist.getPlaylist().size(); row++)
+            for (int row = 0; row < playlist.getPlaylist().size(); row++)
             {
                 rowIndices << row;
             }
 
-            // Shuffle the list of indices randomly
+            // shuffle the list of indices randomly
             std::random_shuffle(rowIndices.begin(), rowIndices.end());
 
-            // Update the QTableWidget with shuffled items
+            // update the QTableWidget with shuffled items
             ui->tableWidget->setRowCount(rowIndices.count());
 
-            for (int row = 0; row < this->playlist.getPlaylist().size(); row++)
+            for (int row = 0; row < playlist.getPlaylist().size(); row++)
             {
                 int rowIndex = rowIndices.at(0);
 
-                ui->tableWidget->setItem(row, 0, new QTableWidgetItem(this->playlist.getPlaylist().at(rowIndex).title));
-                ui->tableWidget->setItem(row, 1, new QTableWidgetItem(this->playlist.getPlaylist().at(rowIndex).author));
-                ui->tableWidget->setItem(row, 2, new QTableWidgetItem(this->playlist.getPlaylist().at(rowIndex).genre));
-                ui->tableWidget->setItem(row, 3, new QTableWidgetItem(this->playlist.getPlaylist().at(rowIndex).playtime));
+                ui->tableWidget->setItem(row, 0, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).title));
+                ui->tableWidget->setItem(row, 1, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).author));
+                ui->tableWidget->setItem(row, 2, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).genre));
+                ui->tableWidget->setItem(row, 3, new QTableWidgetItem(playlist.getPlaylist().at(rowIndex).playtime));
 
                 rowIndices.removeAt(0);
             }
 
+            setOldSelectedCellTransparent();
+
             // Auf das Element in der nächsten Zeile zugreifen
             item_selectedSong = ui->tableWidget->item(0, 0);
-            this->playNewSong();
-
-            /*
-        if (item_selectedSong != nullptr)
-        {
-            shuffleSongList.append(ui->tableWidget->item(item_selectedSong->row(), 0)->text());
-        }
-        */
+            playNewSong();
         }
         else
         {
@@ -491,21 +491,24 @@ void MainWindow::on_pushButton_shuffle_clicked()
             }
             else
             {
-                this->loadData();
+                loadData();
+
+                setOldSelectedCellTransparent();
+
                 item_selectedSong = ui->tableWidget->item(0,0);
             }
-
-            this->setCellWidgetsInTableWidget();
 
 
             for (int column = 0; column < ui->tableWidget->columnCount(); column++)
             {
-                QWidget* customWidget = new QWidget;
+                QWidget *customWidget = new QWidget;
                 customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
-                QLabel* label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
+
+                QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
                 label->setAlignment(Qt::AlignLeft);
                 label->setStyleSheet("color: black;");
-                QVBoxLayout* layout = new QVBoxLayout(customWidget);
+
+                QVBoxLayout *layout = new QVBoxLayout(customWidget);
                 layout->addWidget(label);
                 layout->setContentsMargins(2, 10, 0, 0);
                 ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
@@ -519,16 +522,18 @@ void MainWindow::on_pushButton_previousSong_clicked()
     // doubleClick
     if (timerDoubleClick_previousSong != nullptr)
     {
-        // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
+        // check if a element is selected and isn't in the first row
         if (item_selectedSong && item_selectedSong->row() > 0)
         {
             int nextRow = item_selectedSong->row() - 1;
 
-            // Auf das Element in der nächsten Zeile zugreifen
+            setOldSelectedCellTransparent();
+            // access the previous item in the row from tableWidget
             item_selectedSong = ui->tableWidget->item(nextRow, 0);
 
-            this->playNewSong();
+            playNewSong();
         }
+        // if the song is in the last row then the song start again from the beginning
         else
         {
             ui->horizontalSlider_songProgress->setValue(0);
@@ -540,14 +545,17 @@ void MainWindow::on_pushButton_previousSong_clicked()
         ui->horizontalSlider_songProgress->setValue(0);
     }
 
+    // initialize the timer
     timerDoubleClick_previousSong = new QTimer(ui->pushButton_previousSong);
-    timerDoubleClick_previousSong->setSingleShot(true);  // Der Timer wird nur einmal ausgelöst
+    // timer only triggers one time
+    timerDoubleClick_previousSong->setSingleShot(true);
 
-    // Verbinden Sie das Timeout-Signal des Timers mit einer benutzerdefinierten Slot-Funktion
+    // connect the timeout signal of the timer with onDoubleClickTimerTimeout
     connect(timerDoubleClick_previousSong, &QTimer::timeout, this, &MainWindow::onDoubleClickTimerTimeout);
 
-    // Starten Sie den Timer, wenn ein Doppelklick auftritt
-    timerDoubleClick_previousSong->start(1000);  // 1000 Millisekunden (1 Sekunde) Timeout
+    // start the timer when a double-click occurs
+    // 1000 ms (1 second) timeout
+    timerDoubleClick_previousSong->start(1000);
 }
 
 void MainWindow::onDoubleClickTimerTimeout()
@@ -564,29 +572,35 @@ void MainWindow::on_pushButton_play_clicked()
             // start with the first song when nothing is selected
             item_selectedSong = ui->tableWidget->item(0, 0);
         }
-        this->playSong();
+        playSong();
     }
 }
 
 void MainWindow::playSong()
 {
+    // set slider selectable
     ui->horizontalSlider_songProgress->setDisabled(false);
-    ui->label_song->setText(item_selectedSong->text());
-    this->setCellWidgetsInTableWidget();
 
+    // set the text from label_song to the selected song
+    ui->label_song->setText(item_selectedSong->text());
+
+    // playtime from the selected song
     QString playtime = ui->tableWidget->item(item_selectedSong->row(), 3)->text();
 
     // set the playtime from the song to the ui
     ui->label_timeDuration->setText(playtime);
 
+    // highlight the selected song (all columns in the row yellow background)
     for (int column = 0; column < ui->tableWidget->columnCount(); column++)
     {
-        QWidget* customWidget = new QWidget;
+        QWidget *customWidget = new QWidget;
         customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
-        QLabel* label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
+
+        QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
         label->setAlignment(Qt::AlignLeft);
         label->setStyleSheet("color: black;");
-        QVBoxLayout* layout = new QVBoxLayout(customWidget);
+
+        QVBoxLayout *layout = new QVBoxLayout(customWidget);
         layout->addWidget(label);
         layout->setContentsMargins(2, 10, 0, 0);
         ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
@@ -605,35 +619,37 @@ void MainWindow::playSong()
         timerPassedPlaytime = new QTimer(ui->horizontalSlider_songProgress);
         connect(timerPassedPlaytime, &QTimer::timeout, this, [this]() mutable
                 {
-                    // Calculate hours, minutes, and seconds
+                    // calculate hours, minutes, and seconds
                     int hours = ui->horizontalSlider_songProgress->value() / 3600;
                     int minutes = (ui->horizontalSlider_songProgress->value() % 3600) / 60;
                     int seconds = ui->horizontalSlider_songProgress->value() % 60;
 
-                    // Format the time and set it to a label or any relevant widget
+                    // format the time and set it to label_timePassed
                     QString formattedTime = QString("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
                     ui->label_timePassed->setText(formattedTime);
 
                     ui->horizontalSlider_songProgress->setValue(ui->horizontalSlider_songProgress->value()+1);
 
-                    // Check if the maximum value is reached
+                    // check if the maximum value is reached
                     if (ui->horizontalSlider_songProgress->value() >= ui->horizontalSlider_songProgress->maximum())
                     {
                         if (repeatOn_onlySong)
                         {
+                            setOldSelectedCellTransparent();
+
                             item_selectedSong = ui->tableWidget->item(item_selectedSong->row(), 0);
 
-                            this->playNewSong();
+                            playNewSong();
                         }
                         else
                         {
                             // play next Song
-                            this->nextSong();
+                            nextSong();
                         }
                     }
                 });
 
-        // Start the timer with a 1000 ms interval (1 second).
+        // Start the timer with a 1000 ms (1 second) interval
         timerPassedPlaytime->start(1000);
 
 
@@ -651,9 +667,10 @@ void MainWindow::playSong()
     // pause the song
     else
     {
-        // pause the timer for playing music
+        // check if the timer for playing music is active
         if (timerPassedPlaytime->isActive())
         {
+            // pause the timer for playing music
             timerPassedPlaytime->stop();
         }
 
@@ -672,35 +689,42 @@ void MainWindow::playSong()
 
 void MainWindow::on_pushButton_nextSong_clicked()
 {
+    // only possible if items in tableWidget (songs) are available
     if (ui->tableWidget->rowCount() != 0)
     {
-        this->nextSong();
+        nextSong();
     }
 }
 
 void MainWindow::nextSong()
 {
-    // Überprüfen, ob ein Element ausgewählt ist und es nicht in der letzten Zeile ist
+    // check if queue is on
+    // queue off
     if (queueOn == false)
     {
         if (item_selectedSong && item_selectedSong->row() < ui->tableWidget->rowCount() - 1)
         {
-            // Auf das Element in der nächsten Zeile zugreifen
+            setOldSelectedCellTransparent();
+
+            // access the next song (row + 1) in the item from tableWidget
             item_selectedSong = ui->tableWidget->item(item_selectedSong->row() + 1, 0);
 
-            this->playNewSong();
+            playNewSong();
         }
         else
         {
             // when the end is reached it begins again at the start
             if (repeatOn)
             {
+                setOldSelectedCellTransparent();
+
                 item_selectedSong = ui->tableWidget->item(0, 0);
 
-                this->playNewSong();
+                playNewSong();
             }
         }
     }
+    // queue on
     else
     {
         if (!songQueue.isEmpty())
@@ -709,12 +733,15 @@ void MainWindow::nextSong()
             {
                 if (ui->tableWidget->item(row, 0)->text() == songQueue.first())
                 {
-                    // Auf das Element in der nächsten Zeile zugreifen
+                    setOldSelectedCellTransparent();
+
+                    // access the first song in the queue
                     item_selectedSong = ui->tableWidget->item(row, 0);
 
+                    // remove the first song in the queue
                     songQueue.removeFirst();
 
-                    this->playNewSong();
+                    playNewSong();
                     break;
                 }
             }
@@ -738,11 +765,12 @@ void MainWindow::playNewSong()
 
     songPaused = false;
     ui->horizontalSlider_songProgress->setValue(0);
-    this->playSong();
+    playSong();
 }
 
 void MainWindow::on_pushButton_repeat_clicked()
 {
+    // repeat on
     if (repeatOn == false && repeatOn_onlySong == false)
     {
         repeatOn = true;
@@ -760,6 +788,7 @@ void MainWindow::on_pushButton_repeat_clicked()
 
         ui->pushButton_repeat->setGeometry(367, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
     }
+    // repeat only one song
     else if (repeatOn == true && repeatOn_onlySong == false)
     {
         repeatOn = false;
@@ -777,6 +806,7 @@ void MainWindow::on_pushButton_repeat_clicked()
 
         ui->pushButton_repeat->setGeometry(364, ui->pushButton_repeat->y(), ui->pushButton_repeat->width(), ui->pushButton_repeat->height());
     }
+    // repeat off
     else
     {
         repeatOn = false;
@@ -800,7 +830,7 @@ void MainWindow::on_pushButton_volume_clicked()
 {
     if (soundMuted == false)
     {
-        // save position from the volumeSlider
+        // save the position from the volumeSlider
         volumePosition = ui->horizontalSlider_volumeLevel->sliderPosition();
 
         // set sliderPostion to 0
@@ -819,26 +849,30 @@ void MainWindow::on_pushButton_volume_clicked()
     }
     else
     {
-        // volumeSlider back to the saved position
+        // set volumeSlider back to the saved position
         ui->horizontalSlider_volumeLevel->setSliderPosition(volumePosition);
         // setting the right icon
-        this->setVolumeIcon(volumePosition);
+        setVolumeIcon(volumePosition);
 
         soundMuted = false;
     }
 }
 
 
-
-void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem* item)
+void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
-    item_selectedSong = ui->tableWidget->item(item->row(), 0);
+    item_clickedSong = ui->tableWidget->item(item->row(), 0);
 }
 
-void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem* item)
+void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
-    //this->shuffleSongList.clear();
-    this->playNewSong();
+    if (item_selectedSong != nullptr)
+    {
+        setOldSelectedCellTransparent();
+    }
+
+    item_selectedSong = ui->tableWidget->item(item->row(), 0);
+    playNewSong();
 }
 
 void MainWindow::tableWidget_setItemsFlags()
@@ -847,7 +881,7 @@ void MainWindow::tableWidget_setItemsFlags()
     {
         for (int column = 0; column < ui->tableWidget->columnCount(); column++)
         {
-            QTableWidgetItem* item = ui->tableWidget->item(row, column);
+            QTableWidgetItem *item = ui->tableWidget->item(row, column);
             if (item)
             {
                 // items are selectable but non-editable
@@ -858,10 +892,8 @@ void MainWindow::tableWidget_setItemsFlags()
 }
 
 // text-moving-animation when the mouse enters a item from tableWidget and the text is too long
-void MainWindow::handleItemEntered(QTableWidgetItem* item)
+void MainWindow::handleItemEntered(QTableWidgetItem *item)
 {
-    //ui->label_test->setText(item->text());
-
     // stop the existing timer
     if (timerLongName && timerLongName->isActive())
     {
@@ -869,7 +901,7 @@ void MainWindow::handleItemEntered(QTableWidgetItem* item)
         delete timerLongName;
         timerLongName = nullptr;
 
-        this->loadData();
+        loadData();
     }
     else
     {
@@ -902,31 +934,9 @@ void MainWindow::handleItemEntered(QTableWidgetItem* item)
     }
 }
 
-void MainWindow::setCellWidgetsInTableWidget()
-{
-    for (int row = 0; row < ui->tableWidget->rowCount(); row++)
-    {
-        for (int column = 0; column < ui->tableWidget->columnCount(); column++)
-        {
-            QWidget* customWidget = new QWidget;
-            // odd numbers
-            if (row % 2 != 0)
-            {
-                customWidget->setStyleSheet("background-color: transparent");
-            }
-            // even numbers
-            else
-            {
-                customWidget->setStyleSheet("background-color: transparent");
-            }
-            ui->tableWidget->setCellWidget(row, column, customWidget);
-        }
-    }
-}
-
+// clicked event from the tableWidget headers ("Title", "Author", "Genre", "Playtime")
 void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
 {
-    // clicked event from the headers ("Title", "Author", "Genre", "Playtime")
     // Title:     logicalIndex = 0
     // Author:    logicalIndex = 1
     // Genre:     logicalIndex = 2
@@ -1031,8 +1041,19 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
         item_selectedSong = ui->tableWidget->item(0, 0);
     }
 
-    // set the background-color of the rows
-    setCellWidgetsInTableWidget();
     shuffleOn = true;
-    this->on_pushButton_shuffle_clicked();
+    on_pushButton_shuffle_clicked();
+}
+
+
+// set the background-color for the cells in tableWidget to transparent
+// after a song is selected the old highligthed
+void MainWindow::setOldSelectedCellTransparent()
+{
+    QWidget *customWidget = new QWidget;
+    customWidget->setStyleSheet("background-color: transparent");
+    for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+    {
+        ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+    }
 }

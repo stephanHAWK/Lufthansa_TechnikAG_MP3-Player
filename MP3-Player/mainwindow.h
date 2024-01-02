@@ -33,6 +33,7 @@ private slots:
     void on_pushButton_addDirectory_clicked();
     void on_pushButton_addSong_clicked();
     void on_pushButton_removeSong_clicked();
+    void on_pushButton_addSongToQueue_clicked();
     void loadData();
 
     void on_horizontalSlider_songProgress_valueChanged(int value);
@@ -61,10 +62,9 @@ private slots:
     void on_tableWidget_itemDoubleClicked(QTableWidgetItem *item);
     void tableWidget_setItemsFlags();
     void handleItemEntered(QTableWidgetItem *item);
-    void setCellWidgetsInTableWidget();
     void handleHorizontalHeaderClicked(int logicalIndex);
 
-    void on_pushButton_addSongToQueue_clicked();
+    void setOldSelectedCellTransparent();
 
 private:
     Ui::MainWindow *ui;
@@ -96,6 +96,7 @@ private:
     QTimer *timerDoubleClick_previousSong = nullptr;
 
     QTableWidgetItem *item_selectedSong = nullptr;
+    QTableWidgetItem *item_clickedSong = nullptr;
 
     QStringList songQueue;
 };
