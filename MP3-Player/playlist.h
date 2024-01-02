@@ -19,11 +19,12 @@ public:
     ~Playlist();
 
     QVector<Song> getPlaylist() const;
-    void loadSongInfo(const QString& filePath);
+    void loadSongInfo(QString& filePath);
     void addDirectory();
     void addSong();
     void deleteSong();
     void removeSong(int index);
+    void getFilesData(QString filepath);
 
 private:
     QVector<Song> songList;

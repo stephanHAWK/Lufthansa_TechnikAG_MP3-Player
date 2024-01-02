@@ -63,17 +63,32 @@ void MainWindow::on_pushButton_addSong_clicked()
 
 void MainWindow::on_pushButton_removeSong_clicked()
 {
-    if (item_selectedSong != nullptr)
+    // only when a item in tableWidget was clicked
+    if (item_clickedSong != nullptr)
     {
-        playlist.removeSong(item_selectedSong->row());
+        playlist.removeSong(item_clickedSong->row());
+
+        // only when a item in tableWidget was selected (yellow highlighted)
+        if (item_selectedSong != nullptr)
+        {
+            // the playing song is also the clicked song (who gets removed)
+            if (item_clickedSong->text() == item_selectedSong->text())
+            {
+                setOldSelectedCellTransparent();
+                ui->horizontalSlider_songProgress->setSliderPosition(0);
+            }
+        }
+
         loadData();
 
-        item_selectedSong = nullptr;
-
-        // pause the timer for playing music
-        if (timerPassedPlaytime->isActive())
+        // only if the timerPassedPlaytime was initialized
+        if (timerPassedPlaytime != nullptr)
         {
-            timerPassedPlaytime->stop();
+            // pause the timer for playing music
+            if (timerPassedPlaytime->isActive())
+            {
+                timerPassedPlaytime->stop();
+            }
         }
 
         ui->pushButton_play->setStyleSheet("QPushButton {"
@@ -86,6 +101,19 @@ void MainWindow::on_pushButton_removeSong_clicked()
                                            );
 
         songPaused = false;
+
+
+        // disable songProgress slider when there is no item (song) in tableWidget
+        bool flag = ui->tableWidget->item(0,0)->text().isNull();
+
+        // the cell is empty
+        if (flag)
+        {
+            ui->horizontalSlider_songProgress->setDisabled(true);
+        }
+
+
+        item_clickedSong = nullptr;
     }
 }
 
@@ -343,7 +371,7 @@ void MainWindow::on_pushButton_fullscreen_clicked()
     if (fullscreen == false)
     {
         // save the current size of the window
-        windowWidth = height();
+        windowWidth = width();
         windowHeight = height();
 
         showFullScreen();
@@ -379,13 +407,10 @@ void MainWindow::on_pushButton_fullscreen_clicked()
 void MainWindow::showNormalized()
 {
     // set window back to the original size
-
     showNormal();
+    resize(windowWidth, windowHeight);
 
-    setMinimumWidth(windowWidth);
-    setMinimumHeight(windowHeight);
-
-    // delete the menubar
+    // clear the menubar
     ui->menubar->clear();
 }
 
@@ -393,9 +418,9 @@ void MainWindow::on_pushButton_shuffle_clicked()
 {
     if (ui->tableWidget->rowCount() != 0)
     {
-        if (shuffleOn == false)
+        // turn shuffle on (shuffle is off)
+        if (shuffleOff == true)
         {
-            shuffleOn = true;
 
             ui->pushButton_shuffle->setStyleSheet("QPushButton {"
                                                   "border-image: url(:/icons/icons/shuffleOn.png);"
@@ -416,9 +441,6 @@ void MainWindow::on_pushButton_shuffle_clicked()
             // shuffle the list of indices randomly
             std::random_shuffle(rowIndices.begin(), rowIndices.end());
 
-            // update the QTableWidget with shuffled items
-            ui->tableWidget->setRowCount(rowIndices.count());
-
             for (int row = 0; row < playlist.getPlaylist().size(); row++)
             {
                 int rowIndex = rowIndices.at(0);
@@ -431,16 +453,24 @@ void MainWindow::on_pushButton_shuffle_clicked()
                 rowIndices.removeAt(0);
             }
 
-            setOldSelectedCellTransparent();
+            // start at the first item (song)
+            item_selectedSong = ui->tableWidget->item(0,0);
 
-            // Auf das Element in der nächsten Zeile zugreifen
-            item_selectedSong = ui->tableWidget->item(0, 0);
-            playNewSong();
+            for (int row = 0; row < ui->tableWidget->rowCount(); row++)
+            {
+                for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+                {
+                    QWidget *customWidget = new QWidget;
+                    customWidget->setStyleSheet("background-color: transparent;");
+                    ui->tableWidget->setCellWidget(row, column, customWidget);
+                }
+            }
+            playSong();
+            shuffleOff = false;
         }
+        // turn shuffle off (shuffle is on)
         else
         {
-            shuffleOn = false;
-
             ui->pushButton_shuffle->setStyleSheet("QPushButton {"
                                                   "border-image: url(:/icons/icons/shuffleOff.png);"
                                                   "background-color: transparent;"
@@ -450,12 +480,6 @@ void MainWindow::on_pushButton_shuffle_clicked()
                                                   "}"
                                                   );
 
-
-            // Auf das Element in der nächsten Zeile zugreifen
-            if (item_selectedSong == nullptr)
-            {
-                item_selectedSong = ui->tableWidget->item(0, 0);
-            }
 
             if (titleSortedAscending == true)
             {
@@ -494,25 +518,30 @@ void MainWindow::on_pushButton_shuffle_clicked()
                 loadData();
 
                 setOldSelectedCellTransparent();
-
-                item_selectedSong = ui->tableWidget->item(0,0);
             }
 
 
-            for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+            if (item_selectedSong != nullptr)
             {
-                QWidget *customWidget = new QWidget;
-                customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+                if (item_selectedSong->row() >= 0)
+                {
+                    for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+                    {
+                        QWidget *customWidget = new QWidget;
+                        customWidget->setStyleSheet("background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #fcdd80, stop:1 #fbd666); color: white;");
+                        QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
+                        label->setAlignment(Qt::AlignLeft);
+                        label->setStyleSheet("color: black;");
 
-                QLabel *label = new QLabel(ui->tableWidget->item(item_selectedSong->row(), column)->text());
-                label->setAlignment(Qt::AlignLeft);
-                label->setStyleSheet("color: black;");
-
-                QVBoxLayout *layout = new QVBoxLayout(customWidget);
-                layout->addWidget(label);
-                layout->setContentsMargins(2, 10, 0, 0);
-                ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+                        QVBoxLayout *layout = new QVBoxLayout(customWidget);
+                        layout->addWidget(label);
+                        layout->setContentsMargins(2, 10, 0, 0);
+                        ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+                    }
+                }
             }
+
+            shuffleOff = true;
         }
     }
 }
@@ -612,10 +641,11 @@ void MainWindow::playSong()
         QTime time = QTime::fromString(playtime, "hh:mm:ss");
         int songDurationInSeconds = time.second() + time.minute() * 60 + time.hour() * 3600;
 
-        // Set up your QProgressBar and connect the timer
-        ui->horizontalSlider_songProgress->setRange(0, songDurationInSeconds); // Set the maximum value based on the playtime.
+        // set up the progressBar and connect the timer
+        // Set the maximum value based on the playtime
+        ui->horizontalSlider_songProgress->setRange(0, songDurationInSeconds);
 
-        // Create a QTimer with the parent as ui->progressBar to manage its memory.
+        // create a QTimer with the parent as ui->progressBar
         timerPassedPlaytime = new QTimer(ui->horizontalSlider_songProgress);
         connect(timerPassedPlaytime, &QTimer::timeout, this, [this]() mutable
                 {
@@ -861,18 +891,26 @@ void MainWindow::on_pushButton_volume_clicked()
 
 void MainWindow::on_tableWidget_itemClicked(QTableWidgetItem *item)
 {
-    item_clickedSong = ui->tableWidget->item(item->row(), 0);
+    // dont set item_clickedSong when the headers are clicked (item->row() == -1)
+    if (item->row() >= 0)
+    {
+        item_clickedSong = ui->tableWidget->item(item->row(), 0);
+    }
 }
 
 void MainWindow::on_tableWidget_itemDoubleClicked(QTableWidgetItem *item)
 {
-    if (item_selectedSong != nullptr)
+    // dont set item_selectedSong when the headers are clicked (item->row() == -1)
+    if (item->row() >= 0)
     {
-        setOldSelectedCellTransparent();
-    }
+        if (item_selectedSong != nullptr)
+        {
+            setOldSelectedCellTransparent();
+        }
 
-    item_selectedSong = ui->tableWidget->item(item->row(), 0);
-    playNewSong();
+        item_selectedSong = ui->tableWidget->item(item->row(), 0);
+        playNewSong();
+    }
 }
 
 void MainWindow::tableWidget_setItemsFlags()
@@ -964,6 +1002,10 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
             titleSortedAscending = false;
             titleSortedDescending = true;
         }
+
+
+        //shuffleOn = true;
+        //on_pushButton_shuffle_clicked();
     }
     // Author
     else if (logicalIndex == 1)
@@ -1034,15 +1076,6 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
             playtimeSortedDescending = true;
         }
     }
-
-    if (item_selectedSong == nullptr)
-    {
-        // start with the first song when nothing is selected
-        item_selectedSong = ui->tableWidget->item(0, 0);
-    }
-
-    shuffleOn = true;
-    on_pushButton_shuffle_clicked();
 }
 
 
@@ -1050,10 +1083,16 @@ void MainWindow::handleHorizontalHeaderClicked(int logicalIndex)
 // after a song is selected the old highligthed
 void MainWindow::setOldSelectedCellTransparent()
 {
-    QWidget *customWidget = new QWidget;
-    customWidget->setStyleSheet("background-color: transparent");
-    for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+    if (item_selectedSong != nullptr)
     {
-        ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+        if (item_selectedSong->row() >= 0)
+        {
+            QWidget *customWidget = new QWidget;
+            customWidget->setStyleSheet("background-color: transparent");
+            for (int column = 0; column < ui->tableWidget->columnCount(); column++)
+            {
+                ui->tableWidget->setCellWidget(item_selectedSong->row(), column, customWidget);
+            }
+        }
     }
 }

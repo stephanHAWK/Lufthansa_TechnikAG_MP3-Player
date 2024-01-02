@@ -71,7 +71,7 @@ private:
 
     bool songPaused;
     bool soundMuted;
-    bool shuffleOn;
+    bool shuffleOff = true;
     bool queueOn;
     bool repeatOn;
     bool repeatOn_onlySong;
