@@ -576,6 +576,7 @@ void MainWindow::on_pushButton_previousSong_clicked()
 
     // initialize the timer
     timerDoubleClick_previousSong = new QTimer(ui->pushButton_previousSong);
+
     // timer only triggers one time
     timerDoubleClick_previousSong->setSingleShot(true);
 
