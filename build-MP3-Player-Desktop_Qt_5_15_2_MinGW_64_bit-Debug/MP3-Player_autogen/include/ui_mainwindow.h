@@ -138,7 +138,7 @@ public:
         sizePolicy2.setVerticalStretch(0);
         sizePolicy2.setHeightForWidth(tableWidget->sizePolicy().hasHeightForWidth());
         tableWidget->setSizePolicy(sizePolicy2);
-        tableWidget->setMinimumSize(QSize(690, 380));
+        tableWidget->setMinimumSize(QSize(640, 380));
         tableWidget->setMaximumSize(QSize(16777215, 16777215));
         tableWidget->setMouseTracking(true);
         tableWidget->setTabletTracking(true);

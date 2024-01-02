@@ -23,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // set column width from the tableWidget
     // Title
-    ui->tableWidget->setColumnWidth(0, 200);
+    ui->tableWidget->setColumnWidth(0, 180);
     // Author
-    ui->tableWidget->setColumnWidth(1, 200);
+    ui->tableWidget->setColumnWidth(1, 180);
     // Genre
     ui->tableWidget->setColumnWidth(2, 150);
     // Playtime
