@@ -1,0 +1,9 @@
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/MP3-Player.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/edit_cache.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/rebuild_cache.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/list_install_components.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/install.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/install/local.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/install/strip.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/MP3-Player_autogen_timestamp_deps.dir
+C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player/CMakeFiles/MP3-Player_autogen.dir

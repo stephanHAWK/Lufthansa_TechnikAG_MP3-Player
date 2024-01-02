@@ -1,0 +1,13 @@
+# ninja log v5
+3	989	7259213796158585	MP3-Player_autogen/timestamp	99db4170e2210b31
+3	989	7259213796158585	MP3-Player_autogen/mocs_compilation.cpp	99db4170e2210b31
+3	989	7259213796158585	C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Release/MP3-Player_autogen/timestamp	99db4170e2210b31
+3	989	7259213796158585	C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Release/MP3-Player_autogen/mocs_compilation.cpp	99db4170e2210b31
+991	1139	7259213798765714	MP3-Player_autogen/EWIEGA46WW/qrc_icons.cpp	d4dabe0af8ecb57a
+991	1139	7259213798765714	C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Release/MP3-Player_autogen/EWIEGA46WW/qrc_icons.cpp	d4dabe0af8ecb57a
+1174	2660	7259213813911503	CMakeFiles/MP3-Player.dir/MP3-Player_autogen/EWIEGA46WW/qrc_icons.cpp.obj	81f37b28f5829329
+1155	5544	7259213842798576	CMakeFiles/MP3-Player.dir/playlist.cpp.obj	d1a951bf2e963d49
+1140	5636	7259213843684954	CMakeFiles/MP3-Player.dir/MP3-Player_autogen/mocs_compilation.cpp.obj	f37c4354dadcc9cd
+1163	5684	7259213844264942	CMakeFiles/MP3-Player.dir/main.cpp.obj	7f8619ac482528c1
+1147	7093	7259213858355811	CMakeFiles/MP3-Player.dir/mainwindow.cpp.obj	f3570c3af94d1568
+7094	7440	7259213861771260	MP3-Player.exe	aaf325dcdff4b7

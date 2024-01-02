@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-8d1aa42aef445ce9928f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "MP3-Player",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "MP3-Player::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MP3-Player-Release-3a9b4866c466efa4684f.json",
+					"name" : "MP3-Player",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MP3-Player_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MP3-Player_autogen-Release-a8357027245c90e6a1c6.json",
+					"name" : "MP3-Player_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MP3-Player_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MP3-Player_autogen_timestamp_deps-Release-409ee8ec129e612f4a2f.json",
+					"name" : "MP3-Player_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Stephan Alves Dias/Desktop/MP3-Player/build-MP3-Player-Desktop_Qt_5_15_2_MinGW_64_bit-Release",
+		"source" : "C:/Users/Stephan Alves Dias/Desktop/MP3-Player/Lufthansa_MP3-Player/MP3-Player"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
